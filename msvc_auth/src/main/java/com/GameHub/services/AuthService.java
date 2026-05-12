@@ -10,7 +10,7 @@ Auth findById(Long id);
 Auth findByEmail(String email);
 Auth save(Auth auth);
 void deleteById(Long id);
-Auth updatePassword(Long id, String newPassword);
-Auth updateRol(Long id, String newRol);
-Auth updateEstado(Long id, String newEstado);
+Auth updatePassword(Long id, Auth auth);
+Auth updateRol(Long id, Auth auth);
+Auth updateEstado(Long id, Auth auth);
 }

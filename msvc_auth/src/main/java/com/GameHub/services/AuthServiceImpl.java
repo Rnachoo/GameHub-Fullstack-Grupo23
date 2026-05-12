@@ -1,5 +1,6 @@
 package com.GameHub.services;
 
+import com.GameHub.exceptions.AuthException;
 import com.GameHub.models.Auth;
 import com.GameHub.repositories.AuthRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,36 +18,60 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Auth findById(Long id) {
-        return null;
+        return this.authRepository.findById(id).orElseThrow(
+                () -> new AuthException("Cuenta con ID " +id+" no encontrado")
+        );
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Auth findByEmail(String email) {
-        return null;
+        return this.authRepository.findByEmail(email).orElseThrow(
+                () -> new AuthException("Cuenta con Email "+email+" no encontrado")
+        ) ;
     }
 
     @Override
     public Auth save(Auth auth) {
-        return null;
+        if(this.authRepository.findByEmail(auth.getEmail()).isPresent()){
+            throw new AuthException("Cuenta con Email "+auth.getEmail()+" ya existe");
+        }
+        return this.authRepository.save(auth);
     }
 
     @Override
     public void deleteById(Long id) {
+        this.authRepository.deleteById(id);
+    }
 
+    @Transactional
+    @Override
+    public Auth updatePassword(Long id, Auth auth) {
+        return this.authRepository.findById(id).map(element ->{
+            element.setPasswordHash(auth.getPasswordHash());
+            return this.authRepository.save(element);
+        }).orElseThrow(
+                () -> new AuthException("Cuenta no encontrada")
+        );
     }
 
     @Override
-    public Auth updatePassword(Long id, String newPassword) {
-        return null;
+    public Auth updateRol(Long id, Auth auth) {
+        return this.authRepository.findById(id).map(element ->{
+            element.setRol(auth.getRol());
+            return this.authRepository.save(element);
+        }).orElseThrow(
+                () -> new AuthException("Cuenta no encontrada")
+        );
     }
 
     @Override
-    public Auth updateRol(Long id, String newRol) {
-        return null;
-    }
-
-    @Override
-    public Auth updateEstado(Long id, String newEstado) {
-        return null;
+    public Auth updateEstado(Long id, Auth auth) {
+        return this.authRepository.findById(id).map(element ->{
+            element.setEstado(auth.getEstado());
+            return this.authRepository.save(element);
+        }).orElseThrow(
+                () -> new AuthException("Cuenta no encontrada")
+        );
     }
 }
