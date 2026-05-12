@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @NoArgsConstructor
-public class Cuenta {
+public class Auth {
 
     @NotBlank(message = "El nombre de cuenta es obligatorio")
     @Column(unique = true)

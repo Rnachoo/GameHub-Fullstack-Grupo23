@@ -22,7 +22,7 @@
 		<developer/>
 	</developers>
     <modules>
-        <module>auth</module>
+        <module>msvc_auth</module>
     </modules>
     <scm>
 		<connection/>

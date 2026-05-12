@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>auth</artifactId>
+    <artifactId>msvc_auth</artifactId>
 
     <properties>
         <maven.compiler.source>26</maven.compiler.source>
