@@ -11,7 +11,8 @@
 	<groupId>com.GameHub</groupId>
 	<artifactId>GameHub</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
+    <packaging>pom</packaging>
+    <name/>
 	<description/>
 	<url/>
 	<licenses>
@@ -20,7 +21,10 @@
 	<developers>
 		<developer/>
 	</developers>
-	<scm>
+    <modules>
+        <module>auth</module>
+    </modules>
+    <scm>
 		<connection/>
 		<developerConnection/>
 		<tag/>
