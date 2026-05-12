@@ -35,11 +35,9 @@ public class Auth {
     @NotBlank(message = "La constraseña es obligatorio y no puede estar vacia")
     private String passwordHash;
 
-    @NotBlank(message = "El rol es obligatorio")
+
     private String rol;
-
     private String estado; //
-
     @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
 
