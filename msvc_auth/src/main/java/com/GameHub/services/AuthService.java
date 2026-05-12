@@ -9,8 +9,6 @@ List<Auth> findAll();
 Auth findById(Long id);
 Auth findByEmail(String email);
 Auth save(Auth auth);
-void deleteById(Long id);
+void desactiveById(Long id);
 Auth updatePassword(Long id, Auth auth);
-Auth updateRol(Long id, Auth auth);
-Auth updateEstado(Long id, Auth auth);
-}
+Auth updateRol(Long id, Auth auth);}

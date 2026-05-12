@@ -40,8 +40,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        this.authRepository.deleteById(id);
+    public void desactiveById(Long id){
+        Auth auth = findById(id);
+        auth.setEstado("Inactivo");
+        authRepository.save(auth);
     }
 
     @Transactional
@@ -59,16 +61,6 @@ public class AuthServiceImpl implements AuthService {
     public Auth updateRol(Long id, Auth auth) {
         return this.authRepository.findById(id).map(element ->{
             element.setRol(auth.getRol());
-            return this.authRepository.save(element);
-        }).orElseThrow(
-                () -> new AuthException("Cuenta no encontrada")
-        );
-    }
-
-    @Override
-    public Auth updateEstado(Long id, Auth auth) {
-        return this.authRepository.findById(id).map(element ->{
-            element.setEstado(auth.getEstado());
             return this.authRepository.save(element);
         }).orElseThrow(
                 () -> new AuthException("Cuenta no encontrada")

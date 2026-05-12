@@ -38,7 +38,6 @@ public class Auth {
     @NotBlank(message = "El rol es obligatorio")
     private String rol;
 
-    @NotBlank(message = "El estado es obligatorio")
     private String estado; //
 
     @Column(name = "fecha_creacion", updatable = false)
