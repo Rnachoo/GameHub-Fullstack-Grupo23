@@ -5,7 +5,6 @@ import com.GameHub.models.Auth;
 import com.GameHub.repositories.AuthRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -74,7 +73,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public Auth updateRol(Long id, Auth auth) {//Updatear el rol de la cuenta (Revisar antes de entrega)
+    public Auth updateRol(Long id, Auth auth) {//Updatear el rol de la cuenta
         return this.authRepository.findById(id).map(element ->{
             element.setRol(auth.getRol());
             log.info("Rol actualizado con exito");
