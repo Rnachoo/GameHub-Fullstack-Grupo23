@@ -11,7 +11,7 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="cuenta")
+@Table(name="cuentas")
 @Getter
 @Setter
 @ToString
