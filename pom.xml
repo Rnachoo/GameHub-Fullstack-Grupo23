@@ -23,7 +23,8 @@
 	</developers>
     <modules>
         <module>msvc_auth</module>
-    </modules>
+	    <module>msvc_user</module>
+	</modules>
     <scm>
 		<connection/>
 		<developerConnection/>
