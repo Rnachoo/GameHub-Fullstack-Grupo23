@@ -42,12 +42,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User save(User user) {
+    public User save(User user) { //Crear cuenta
+        if(this.userRepository.existeEmail(user.getEmail())){
+            throw new RuntimeException("El correo electronico ya esta registrado");
+        }
+        user.setEstado("Active");
+        return this.userRepository.save(user);
     }
 
     @Override
-    public User desactiveById(Long id) {
-        return null;
+    public User desactiveById(Long id) { //Desactivar cuentas
+        User user = findByID(id);
+        user.setEstado("Inactive");
+        return userRepository.save(user);
     }
 
     @Override
