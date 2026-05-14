@@ -60,9 +60,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public Auth updatePassword(Long id, Auth auth) {//Updatear la clave de acceso (Revisar antes de entrega)
+    public Auth updatePassword(Long id, String passwordHash) {//Updatear la clave de acceso (Revisar antes de entrega)
         return this.authRepository.findById(id).map(element ->{
-            element.setPasswordHash(auth.getPasswordHash());
+            element.setPasswordHash(passwordHash);
             log.info("Contraseña actuliazada con exito!");
             return this.authRepository.save(element);
 
@@ -73,9 +73,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public Auth updateRol(Long id, Auth auth) {//Updatear el rol de la cuenta
+    public Auth updateRol(Long id, String rol) {//Updatear el rol de la cuenta
         return this.authRepository.findById(id).map(element ->{
-            element.setRol(auth.getRol());
+            element.setRol(rol);
             log.info("Rol actualizado con exito");
             return this.authRepository.save(element);
         }).orElseThrow(

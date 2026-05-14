@@ -46,13 +46,13 @@ public class AuthController {
     }
 
     @PatchMapping("/{id}/password")
-    public ResponseEntity<Auth> updatePassword  (@PathVariable Long id, @Valid @RequestBody Auth auth){
-        return ResponseEntity.status(HttpStatus.OK).body(authService.updatePassword(id, auth));
+    public ResponseEntity<Auth> updatePassword  (@PathVariable Long id, @Valid @RequestBody String passwordHash){
+        return ResponseEntity.status(HttpStatus.OK).body(authService.updatePassword(id, passwordHash));
     }
 
     @PatchMapping("/{id}/rol")
-    public ResponseEntity<Auth> updateRol (@PathVariable Long id, @RequestBody Auth auth){
-        return ResponseEntity.status(HttpStatus.OK).body(authService.updateRol(id, auth));
+    public ResponseEntity<Auth> updateRol (@PathVariable Long id, @RequestBody String rol){
+        return ResponseEntity.status(HttpStatus.OK).body(authService.updateRol(id, rol));
     }
 
 }

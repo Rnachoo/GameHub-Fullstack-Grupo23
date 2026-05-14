@@ -10,5 +10,5 @@ Auth findById(Long id);
 Auth findByEmail(String email);
 Auth save(Auth auth);
 Auth desactiveById(Long id);
-Auth updatePassword(Long id, Auth auth);
-Auth updateRol(Long id, Auth auth);}
+Auth updatePassword(Long id, String passwordHash);
+Auth updateRol(Long id, String rol);}
