@@ -21,7 +21,7 @@ public class AuthServiceImpl implements AuthService {
         return this.authRepository.findAll();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public Auth findById(Long id) {//Buscar cuenta por ID
         return this.authRepository.findById(id).orElseThrow(
@@ -41,7 +41,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Auth save(Auth auth) { //Crear cuenta
         if(this.authRepository.findByEmail(auth.getEmail()).isPresent()){
-            log.error("Error al crear la cuenta");
             throw new AuthException("Cuenta con Email "+auth.getEmail()+" ya esta registrado");
         }
         auth.setEstado("Active");
@@ -79,7 +78,7 @@ public class AuthServiceImpl implements AuthService {
             log.info("Rol actualizado con exito");
             return this.authRepository.save(element);
         }).orElseThrow(
-                () -> new AuthException("Cuenta no encontrada")
+                () -> new AuthException("Cuenta no encontrada, no se puede actualizar el rol")
         );
     }
 
