@@ -48,6 +48,7 @@ public class AuthServiceImpl implements AuthService {
         return this.authRepository.save(auth);
     }
 
+    @Transactional
     @Override
     public Auth desactiveById(Long id){//Desactivar cuentas
         Auth auth = findById(id);
