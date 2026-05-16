@@ -1,6 +1,7 @@
 package com.GameHub.controllers;
 
 import com.GameHub.models.Auth;
+import com.GameHub.models.dtos.AuthDetalleDTO;
 import com.GameHub.services.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +20,17 @@ public class AuthController {
     private AuthService authService;
 
     @GetMapping
-    public ResponseEntity<List<Auth>> findAll(){
+    public ResponseEntity<List<AuthDetalleDTO>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(authService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Auth> findById(@PathVariable Long id){
+    public ResponseEntity<AuthDetalleDTO> findById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(authService.findById(id));
     }
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<Auth> findByEmail(@PathVariable String email){
+    public ResponseEntity<AuthDetalleDTO> findByEmail(@PathVariable String email){
         return ResponseEntity.status(HttpStatus.OK).body(authService.findByEmail(email));
     }
 

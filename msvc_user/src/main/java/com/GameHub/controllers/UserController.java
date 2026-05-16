@@ -3,6 +3,7 @@ package com.GameHub.controllers;
 
 import com.GameHub.models.Direction;
 import com.GameHub.models.User;
+import com.GameHub.models.dtos.UserDTO;
 import com.GameHub.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,22 +22,22 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll(){
+    public ResponseEntity<List<UserDTO>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id){
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));
     }
 
     @GetMapping("/rol/{rol}")
-    public ResponseEntity<List<User>> findByRol(@PathVariable String rol){
+    public ResponseEntity<List<UserDTO>> findByRol(@PathVariable String rol){
         return ResponseEntity.status(HttpStatus.OK).body(userService.findByRol(rol));
     }
 
     @GetMapping("/estado/{estado}")
-    public ResponseEntity<List<User>> findByEstado(@PathVariable String estado){
+    public ResponseEntity<List<UserDTO>> findByEstado(@PathVariable String estado){
         return ResponseEntity.status(HttpStatus.OK).body(userService.findByEstado(estado));
     }
 

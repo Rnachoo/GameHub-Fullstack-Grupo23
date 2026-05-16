@@ -1,8 +1,12 @@
 package com.GameHub.services;
 
+import com.GameHub.Clients.UserClient;
 import com.GameHub.exceptions.AuthException;
 import com.GameHub.models.Auth;
+import com.GameHub.models.dtos.AuthDetalleDTO;
+import com.GameHub.models.dtos.UserDTO;
 import com.GameHub.repositories.AuthRepository;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,27 +18,70 @@ import java.util.List;
 public class AuthServiceImpl implements AuthService {
     @Autowired
     private AuthRepository authRepository;
+    @Autowired
+    private UserClient userClient;
 
     @Transactional(readOnly = true)
     @Override
-    public List<Auth> findAll() {//Listar todas las cuentas
-        return this.authRepository.findAll();
+    public List<AuthDetalleDTO> findAll() {//Listar todas las cuentas
+        log.info("Listando cuentas registradas en el sistema!");
+        return this.authRepository.findAll().stream().map(auth -> {
+            AuthDetalleDTO dto = new AuthDetalleDTO();
+            dto.setId(auth.getId());
+            dto.setEstado(auth.getEstado());
+            dto.setEmail(auth.getEmail());
+            dto.setRol(auth.getRol());
+            try {
+                UserDTO user = this.userClient.getUserById(auth.getId());
+                dto.setUser(user);
+            }catch (FeignException e){
+                log.error("Error de Conexión con el id "+ auth.getId());
+                throw new RuntimeException("Cuenta con ID "+ auth.getId()+" no existe");
+            }
+            return dto;
+        }).toList();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Auth findById(Long id) {//Buscar cuenta por ID
-        return this.authRepository.findById(id).orElseThrow(
-                () -> new AuthException("Cuenta con ID " +id+" no encontrado")
-        );
+    public AuthDetalleDTO findById(Long id) { //Buscar Por el ID
+        log.info("Buscando cuentas registradas en el sistema!");
+        Auth auth = this.authRepository.findById(id).orElseThrow(
+                () -> new AuthException("Cuenta con ID " + id + " no encontrado"));
+        AuthDetalleDTO dto = new AuthDetalleDTO();
+        dto.setId(auth.getId());
+        dto.setEmail(auth.getEmail());
+        dto.setEstado(auth.getEstado());
+        dto.setRol(auth.getRol());
+        try {
+            UserDTO user = this.userClient.getUserById(auth.getId());
+            dto.setUser(user);
+        } catch (FeignException e) {
+            log.error("Error de Conexión con el id "+ auth.getId());
+            throw new RuntimeException("Cuenta con ID "+ auth.getId()+" no existe");
+        }
+        return dto;
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Auth findByEmail(String email) {//Buscar cuenta por email
-        return this.authRepository.findByEmail(email).orElseThrow(
-                () -> new AuthException("Cuenta con Email "+email+" no encontrado")
-        ) ;
+    public AuthDetalleDTO findByEmail(String email) {//Buscar cuenta por email
+        log.info("Buscando cuentas registradas en el sistema!");
+        Auth auth = this.authRepository.findByEmail(email).orElseThrow(
+                () -> new AuthException("Cuenta con Email " + email + " no encontrado"));
+        AuthDetalleDTO dto = new AuthDetalleDTO();
+        dto.setId(auth.getId());
+        dto.setEmail(auth.getEmail());
+        dto.setEstado(auth.getEstado());
+        dto.setRol(auth.getRol());
+        try {
+            UserDTO user = this.userClient.getUserById(auth.getId());
+            dto.setUser(user);
+        } catch (FeignException e) {
+            log.error("Error de Conexión con el id "+ auth.getId());
+            throw new RuntimeException("Cuenta con email "+ auth.getEmail()+" no existe");
+        }
+        return dto;
     }
 
     @Transactional
@@ -51,7 +98,8 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     @Override
     public Auth desactiveById(Long id){//Desactivar cuentas
-        Auth auth = findById(id);
+        Auth auth = this.authRepository.findById(id).orElseThrow(
+                () -> new AuthException("Cuenta con ID " + id + " no encontrado"));
         auth.setEstado("Inactivo");//Funciona por estado Active o Inactive, la idea es imposibilitar su uso sin borrar los datos
         log.info("Cuenta con id "+id+" Ha sido desactivada");
         return authRepository.save(auth);
