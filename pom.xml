@@ -23,6 +23,7 @@
 	<modules>
 		<module>msvc_auth</module>
 		<module>msvc_user</module>
+		<module>msvc_category</module>
 	</modules>
 	<scm>
 		<connection/>

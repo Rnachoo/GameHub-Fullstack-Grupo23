@@ -1,6 +1,6 @@
 package com.GameHub.services;
 
-import com.GameHub.Clients.UserClient;
+import com.GameHub.clients.UserClient;
 import com.GameHub.exceptions.AuthException;
 import com.GameHub.models.Auth;
 import com.GameHub.models.dtos.AuthDetalleDTO;
@@ -24,7 +24,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional(readOnly = true)
     @Override
     public List<AuthDetalleDTO> findAll() {//Listar todas las cuentas
-        log.info("Listando cuentas registradas en el sistema!");
+        log.info("Abriendo Listando cuentas registradas en el sistema!");
         return this.authRepository.findAll().stream().map(auth -> {
             AuthDetalleDTO dto = new AuthDetalleDTO();
             dto.setId(auth.getId());

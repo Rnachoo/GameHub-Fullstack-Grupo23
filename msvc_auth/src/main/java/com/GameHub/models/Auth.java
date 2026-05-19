@@ -25,7 +25,7 @@ public class Auth {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cuenta_id")
-    private Long Id;
+    private Long id;
 
     @NotBlank(message = "El campo de correo no puede ser vacio")
     @Email(message = "El campo de correo tiene que tener el formato de correo")

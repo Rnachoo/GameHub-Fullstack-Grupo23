@@ -1,4 +1,4 @@
-package com.GameHub.Clients;
+package com.GameHub.clients;
 
 
 import com.GameHub.models.dtos.UserDTO;
