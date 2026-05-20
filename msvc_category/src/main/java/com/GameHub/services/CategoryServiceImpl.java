@@ -56,6 +56,7 @@ public class CategoryServiceImpl implements CategoryService{
         return this.categoryRepository.save(category);
     }
 
+    @Transactional
     @Override
     public Category desactiveById(Long id) { //Debe actualizarse, una ves creado el msvc Product
         Category category = this.categoryRepository.findById(id).orElseThrow(
@@ -65,6 +66,7 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryRepository.save(category);
     }
 
+    @Transactional
     @Override
     public Category updateNombre(Long id, String nombreCategory) {
         return this.categoryRepository.findById(id).map(element ->{
@@ -76,6 +78,7 @@ public class CategoryServiceImpl implements CategoryService{
         );
     }
 
+    @Transactional
     @Override
     public Category updateDescripcion(Long id, String descripcion) {
         return this.categoryRepository.findById(id).map(element ->{
