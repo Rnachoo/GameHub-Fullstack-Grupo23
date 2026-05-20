@@ -39,19 +39,19 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.save(auth));
     }
 
-    @PutMapping ("/{id}")
+    @PatchMapping ("/{id}")
     public ResponseEntity <Auth> desactiveById(@PathVariable Long id){
         Auth auth = authService.desactiveById(id);
         return ResponseEntity.ok(auth);
 
     }
 
-    @PutMapping("/{id}/password")
+    @PatchMapping("/{id}/password")
     public ResponseEntity<Auth> updatePassword  (@PathVariable Long id, @Valid @RequestBody String passwordHash){
         return ResponseEntity.status(HttpStatus.OK).body(authService.updatePassword(id, passwordHash));
     }
 
-    @PutMapping("/{id}/rol")
+    @PatchMapping("/{id}/rol")
     public ResponseEntity<Auth> updateRol (@PathVariable Long id, @RequestBody String rol){
         return ResponseEntity.status(HttpStatus.OK).body(authService.updateRol(id, rol));
     }

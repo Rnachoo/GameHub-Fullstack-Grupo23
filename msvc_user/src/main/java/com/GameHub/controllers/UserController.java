@@ -46,19 +46,19 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
 
     }
-    @PutMapping ("/{id}")
+    @PatchMapping ("/{id}")
     public ResponseEntity <User> desactiveById(@PathVariable Long id){
         User user = userService.desactiveById(id);
         return ResponseEntity.ok(user);
 
     }
 
-    @PutMapping("/{id}/telefono")
+    @PatchMapping("/{id}/telefono")
     public ResponseEntity<User> updateTelefono  (@PathVariable Long id, @Valid @RequestBody String telefono){
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateTelefono(id, telefono));
     }
 
-    @PutMapping("/{id}/direction")
+    @PatchMapping("/{id}/direction")
     public ResponseEntity<User> updateDirection (@PathVariable Long id, @RequestBody Direction direction){
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateDirection(id, direction));
     }
