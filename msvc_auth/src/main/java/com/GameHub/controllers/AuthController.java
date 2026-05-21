@@ -2,6 +2,9 @@ package com.GameHub.controllers;
 
 import com.GameHub.models.Auth;
 import com.GameHub.models.dtos.AuthDetalleDTO;
+import com.GameHub.models.dtos.AuthSaveDTO;
+import com.GameHub.models.dtos.AuthUpdatePasswordDTO;
+import com.GameHub.models.dtos.AuthUpdateRolDTO;
 import com.GameHub.services.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,25 +38,25 @@ public class AuthController {
     }
 
     @PostMapping
-    public ResponseEntity<Auth> save(@Valid @RequestBody Auth auth){
-        return ResponseEntity.status(HttpStatus.CREATED).body(authService.save(auth));
+    public ResponseEntity<AuthDetalleDTO> save(@Valid @RequestBody AuthSaveDTO authSaveDTO){
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.save(authSaveDTO));
     }
 
     @PatchMapping ("/{id}")
-    public ResponseEntity <Auth> desactiveById(@PathVariable Long id){
-        Auth auth = authService.desactiveById(id);
+    public ResponseEntity <AuthDetalleDTO> desactiveById(@PathVariable Long id){
+        AuthDetalleDTO auth = authService.desactiveById(id);
         return ResponseEntity.ok(auth);
 
     }
 
     @PatchMapping("/{id}/password")
-    public ResponseEntity<Auth> updatePassword  (@PathVariable Long id, @Valid @RequestBody String passwordHash){
-        return ResponseEntity.status(HttpStatus.OK).body(authService.updatePassword(id, passwordHash));
+    public ResponseEntity<AuthDetalleDTO> updatePassword  (@PathVariable Long id, @Valid @RequestBody AuthUpdatePasswordDTO passwordDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(authService.updatePassword(id, passwordDTO));
     }
 
     @PatchMapping("/{id}/rol")
-    public ResponseEntity<Auth> updateRol (@PathVariable Long id, @RequestBody String rol){
-        return ResponseEntity.status(HttpStatus.OK).body(authService.updateRol(id, rol));
+    public ResponseEntity<AuthDetalleDTO> updateRol (@PathVariable Long id, @Valid @RequestBody AuthUpdateRolDTO rolDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(authService.updateRol(id, rolDTO));
     }
 
 }

@@ -33,7 +33,7 @@ public class Auth {
     private String email;
 
     @NotBlank(message = "La constraseña es obligatorio y no puede estar vacia")
-    private String passwordHash;
+    private String password;
 
 
     private String rol;
