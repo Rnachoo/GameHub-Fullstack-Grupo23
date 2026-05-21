@@ -1,5 +1,7 @@
 package com.GameHub.models.dtos;
 
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,11 +11,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class UserDTO {
-    private Long id;
-    private String nombreUser;
-    private String email;
+public class UserUpdateTelefonoDTO {
+
+    @NotBlank(message = "El número de telefono es obligatorio")
     private String telefono;
-    private String rol;
-    private String estado;
 }

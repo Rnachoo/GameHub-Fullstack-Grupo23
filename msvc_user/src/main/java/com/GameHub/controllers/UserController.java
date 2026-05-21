@@ -1,9 +1,9 @@
 package com.GameHub.controllers;
 
-
-import com.GameHub.models.Direction;
-import com.GameHub.models.User;
-import com.GameHub.models.dtos.UserDTO;
+import com.GameHub.models.dtos.UserDetalleDTO;
+import com.GameHub.models.dtos.UserSaveDTO;
+import com.GameHub.models.dtos.UserUpdateDirectionDTO;
+import com.GameHub.models.dtos.UserUpdateTelefonoDTO;
 import com.GameHub.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,44 +22,44 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> findAll(){
+    public ResponseEntity<List<UserDetalleDTO>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> findById(@PathVariable Long id){
+    public ResponseEntity<UserDetalleDTO> findById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));
     }
 
     @GetMapping("/rol/{rol}")
-    public ResponseEntity<List<UserDTO>> findByRol(@PathVariable String rol){
+    public ResponseEntity<List<UserDetalleDTO>> findByRol(@PathVariable String rol){
         return ResponseEntity.status(HttpStatus.OK).body(userService.findByRol(rol));
     }
 
     @GetMapping("/estado/{estado}")
-    public ResponseEntity<List<UserDTO>> findByEstado(@PathVariable String estado){
+    public ResponseEntity<List<UserDetalleDTO>> findByEstado(@PathVariable String estado){
         return ResponseEntity.status(HttpStatus.OK).body(userService.findByEstado(estado));
     }
 
     @PostMapping
-    public ResponseEntity<User> save(@Valid @RequestBody User user){
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
+    public ResponseEntity<UserDetalleDTO> save(@Valid @RequestBody UserSaveDTO userSaveDTO){
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userSaveDTO));
 
     }
     @PatchMapping ("/{id}")
-    public ResponseEntity <User> desactiveById(@PathVariable Long id){
-        User user = userService.desactiveById(id);
+    public ResponseEntity <UserDetalleDTO> desactiveById(@PathVariable Long id){
+        UserDetalleDTO user = userService.desactiveById(id);
         return ResponseEntity.ok(user);
 
     }
 
     @PatchMapping("/{id}/telefono")
-    public ResponseEntity<User> updateTelefono  (@PathVariable Long id, @Valid @RequestBody String telefono){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.updateTelefono(id, telefono));
+    public ResponseEntity<UserDetalleDTO> updateTelefono(@PathVariable Long id, @Valid @RequestBody UserUpdateTelefonoDTO telefonoDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateTelefono(id, telefonoDTO));
     }
 
-    @PatchMapping("/{id}/direction")
-    public ResponseEntity<User> updateDirection (@PathVariable Long id, @RequestBody Direction direction){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.updateDirection(id, direction));
+    @PatchMapping("/{id}/directions")
+    public ResponseEntity<UserDetalleDTO> updateDirection (@PathVariable Long id, @Valid @RequestBody UserUpdateDirectionDTO directionDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateDirection(id, directionDTO));
     }
 }

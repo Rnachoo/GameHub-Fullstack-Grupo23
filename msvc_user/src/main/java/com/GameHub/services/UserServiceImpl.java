@@ -3,10 +3,9 @@ package com.GameHub.services;
 import com.GameHub.exceptions.UserException;
 import com.GameHub.models.Direction;
 import com.GameHub.models.User;
-import com.GameHub.models.dtos.UserDTO;
+import com.GameHub.models.dtos.*;
 import com.GameHub.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.exception.AuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,96 +21,212 @@ public class UserServiceImpl implements UserService{
 
     @Transactional(readOnly = true)
     @Override
-    public List<UserDTO> findAll() {
+    public List<UserDetalleDTO> findAll() {
         log.info("Listando usuarios registrados en el sistema!");
         return this.userRepository.findAll().stream().map(user -> {
-            UserDTO dto = new UserDTO();
+            UserDetalleDTO dto = new UserDetalleDTO();
             dto.setId(user.getId());
             dto.setNombreUser(user.getNombreUser());
             dto.setEmail(user.getEmail());
             dto.setTelefono(user.getTelefono());
             dto.setRol(user.getRol());
             dto.setEstado(user.getEstado());
+
+            List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
+                DirectionDetalleDTO dirDTO = new DirectionDetalleDTO();
+                dirDTO.setComuna(dir.getComuna());
+                dirDTO.setCiudad(dir.getCiudad());
+                dirDTO.setCalle(dir.getCalle());
+                dirDTO.setNumero(dir.getNumero());
+                return dirDTO;
+            }).toList();
+            dto.setDirectionsDTO(directionDTO);
             return dto;
         }).toList();
     };
 
     @Transactional(readOnly = true)
     @Override
-    public List<UserDTO> findByRol(String rol) {//Filtra por el rol del user
+    public List<UserDetalleDTO> findByRol(String rol) {//Filtra por el rol del user
         log.info("Listando usuarios registrados en el sistema!");
         return this.userRepository.findByRol(rol).stream().map(user -> {
-            UserDTO dto = new UserDTO();
+            UserDetalleDTO dto = new UserDetalleDTO();
             dto.setId(user.getId());
             dto.setNombreUser(user.getNombreUser());
             dto.setEmail(user.getEmail());
             dto.setTelefono(user.getTelefono());
             dto.setRol(user.getRol());
             dto.setEstado(user.getEstado());
+
+            List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
+                DirectionDetalleDTO dirDTO = new DirectionDetalleDTO();
+                dirDTO.setComuna(dir.getComuna());
+                dirDTO.setCiudad(dir.getCiudad());
+                dirDTO.setCalle(dir.getCalle());
+                dirDTO.setNumero(dir.getNumero());
+                return dirDTO;
+            }).toList();
+            dto.setDirectionsDTO(directionDTO);
             return dto;
         }).toList();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<UserDTO> findByEstado(String estado){//Filtra por el estado del user
+    public List<UserDetalleDTO> findByEstado(String estado){//Filtra por el estado del user
         log.info("Listando usuarios registrados en el sistema!");
         return this.userRepository.findByEstado(estado).stream().map(user -> {
-            UserDTO dto = new UserDTO();
+            UserDetalleDTO dto = new UserDetalleDTO();
             dto.setId(user.getId());
             dto.setNombreUser(user.getNombreUser());
             dto.setEmail(user.getEmail());
             dto.setTelefono(user.getTelefono());
             dto.setRol(user.getRol());
             dto.setEstado(user.getEstado());
+
+            List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
+                DirectionDetalleDTO dirDTO = new DirectionDetalleDTO();
+                dirDTO.setComuna(dir.getComuna());
+                dirDTO.setCiudad(dir.getCiudad());
+                dirDTO.setCalle(dir.getCalle());
+                dirDTO.setNumero(dir.getNumero());
+                return dirDTO;
+            }).toList();
+            dto.setDirectionsDTO(directionDTO);
             return dto;
         }).toList();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public UserDTO findById(Long id) {
+    public UserDetalleDTO findById(Long id) {
         log.info("Buscando usuarios registrados en el sistema!");
         User user = this.userRepository.findById(id).orElseThrow(
                 ()-> new UserException("User con ID " + id + " no encontrado"));
-        UserDTO dto = new UserDTO();
+        UserDetalleDTO dto = new UserDetalleDTO();
         dto.setId(user.getId());
         dto.setNombreUser(user.getNombreUser());
         dto.setEmail(user.getEmail());
         dto.setTelefono(user.getTelefono());
         dto.setRol(user.getRol());
         dto.setEstado(user.getEstado());
+
+        List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
+            DirectionDetalleDTO dirDTO = new DirectionDetalleDTO();
+            dirDTO.setComuna(dir.getComuna());
+            dirDTO.setCiudad(dir.getCiudad());
+            dirDTO.setCalle(dir.getCalle());
+            dirDTO.setNumero(dir.getNumero());
+            return dirDTO;
+        }).toList();
+        dto.setDirectionsDTO(directionDTO);
         return dto;
     }
 
     @Transactional
     @Override
-    public User save(User user) { //Crear cuenta
-        if(this.userRepository.existeEmail(user.getEmail())){
+    public UserDetalleDTO save(UserSaveDTO userSaveDTO) { //Crear cuenta
+        if(this.userRepository.existeEmail(userSaveDTO.getEmail())){
             throw new RuntimeException("El correo electronico ya esta registrado");
         }
+        User user = new User();
+        user.setNombreUser(userSaveDTO.getNombreUser());
+        user.setEmail(userSaveDTO.getEmail());
+        user.setTelefono(userSaveDTO.getTelefono());
+        user.setRol(userSaveDTO.getRol());
         user.setEstado("Active");
-        log.info("Usuario guardado con exito");
-        return this.userRepository.save(user);
+
+        if(userSaveDTO.getDirectionsDTO() != null){
+            List<Direction> directions = userSaveDTO.getDirectionsDTO().stream().map(dirDTO ->{
+                Direction direction = new Direction();
+                direction.setComuna(dirDTO.getComuna());
+                direction.setCiudad(dirDTO.getCiudad());
+                direction.setCalle(dirDTO.getCalle());
+                direction.setNumero(dirDTO.getNumero());
+
+                direction.setUser(user);
+                return direction;
+            }).toList();
+            user.setDirections(directions);
+        }
+        User userSave = this.userRepository.save(user);
+        log.info("Usuario con email "+userSave.getEmail()+" guardado con exito");
+
+        UserDetalleDTO dto = new UserDetalleDTO();
+        dto.setId(userSave.getId());
+        dto.setNombreUser(userSave.getNombreUser());
+        dto.setEmail(userSave.getEmail());
+        dto.setTelefono(userSave.getTelefono());
+        dto.setRol(userSave.getRol());
+        dto.setEstado(userSave.getEstado());
+
+        List<DirectionDetalleDTO> directionDTOs = userSave.getDirections().stream().map(dir -> {
+            DirectionDetalleDTO ddto = new DirectionDetalleDTO();
+            ddto.setComuna(dir.getComuna());
+            ddto.setCiudad(dir.getCiudad());
+            ddto.setCalle(dir.getCalle());
+            ddto.setNumero(dir.getNumero());
+            return ddto;
+        }).toList();
+        dto.setDirectionsDTO(directionDTOs);
+        return dto;
     }
 
     @Transactional
     @Override
-    public User desactiveById(Long id) { //Desactivar cuentas
+    public UserDetalleDTO desactiveById(Long id) { //Desactivar cuentas
         User user = this.userRepository.findById(id).orElseThrow(
                 ()-> new UserException("User con ID " + id + " no encontrado"));
         user.setEstado("Inactive");
+        user = userRepository.save(user);
         log.info("Usuario desactivado con exito");
-        return userRepository.save(user);
+
+        UserDetalleDTO dto = new UserDetalleDTO();
+        dto.setId(user.getId());
+        dto.setEmail(user.getEmail());
+        dto.setRol(user.getRol());
+        dto.setEstado(user.getEstado());
+        dto.setTelefono(user.getTelefono());
+
+        List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
+            DirectionDetalleDTO dirDTO = new DirectionDetalleDTO();
+            dirDTO.setComuna(dir.getComuna());
+            dirDTO.setCiudad(dir.getCiudad());
+            dirDTO.setCalle(dir.getCalle());
+            dirDTO.setNumero(dir.getNumero());
+            return dirDTO;
+        }).toList();
+        dto.setDirectionsDTO(directionDTO);
+        return dto;
     }
 
     @Transactional
     @Override
-    public User updateTelefono(Long id, String telefono) {//Updatear el telefono;
-        return this.userRepository.findById(id).map(element ->{
-            element.setTelefono(telefono);
+    public UserDetalleDTO updateTelefono(Long id, UserUpdateTelefonoDTO telefonoDTO) {//Updatear el telefono;
+        return this.userRepository.findById(id).map(user ->{
+            user.setTelefono(telefonoDTO.getTelefono());
             log.info("Telefono del usuario guardado con exito");
-            return this.userRepository.save(element);
+
+            user = this.userRepository.save(user);
+
+            UserDetalleDTO dto = new UserDetalleDTO();
+            dto.setId(user.getId());
+            dto.setEmail(user.getEmail());
+            dto.setRol(user.getRol());
+            dto.setEstado(user.getEstado());
+            dto.setTelefono(user.getTelefono());
+
+            List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
+                DirectionDetalleDTO dirDTO = new DirectionDetalleDTO();
+                dirDTO.setComuna(dir.getComuna());
+                dirDTO.setCiudad(dir.getCiudad());
+                dirDTO.setCalle(dir.getCalle());
+                dirDTO.setNumero(dir.getNumero());
+                return dirDTO;
+            }).toList();
+            dto.setDirectionsDTO(directionDTO);
+            return dto;
+
         }).orElseThrow(
                 ()  -> new UserException("Cuenta no encontrada, no se puede actualizar el telefono")
         );
@@ -119,12 +234,36 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public User updateDirection(Long id, Direction direction) {//Updatear la dirección
-        return this.userRepository.findById(id).map(element ->{
-            direction.setUser(element);
-            element.getDirections().add(direction);
+    public UserDetalleDTO updateDirection(Long id, UserUpdateDirectionDTO directionDTO) {//Updatear la dirección
+        return this.userRepository.findById(id).map(user ->{
+            Direction direction = new Direction();
+            direction.setComuna(directionDTO.getComuna());
+            direction.setCiudad(directionDTO.getCiudad());
+            direction.setCalle(directionDTO.getCalle());
+            direction.setNumero(directionDTO.getNumero());
+
+            direction.setUser(user);
+            user.getDirections().add(direction);
             log.info("Dirección del usuario guardado con exito");
-            return this.userRepository.save(element);
+
+            UserDetalleDTO dto = new UserDetalleDTO();
+            dto.setId(user.getId());
+            dto.setEmail(user.getEmail());
+            dto.setRol(user.getRol());
+            dto.setEstado(user.getEstado());
+            dto.setTelefono(user.getTelefono());
+
+            List<DirectionDetalleDTO> directionDetalleDTO = user.getDirections().stream().map(dir ->{
+                DirectionDetalleDTO dirDTO = new DirectionDetalleDTO();
+                dirDTO.setComuna(dir.getComuna());
+                dirDTO.setCiudad(dir.getCiudad());
+                dirDTO.setCalle(dir.getCalle());
+                dirDTO.setNumero(dir.getNumero());
+                return dirDTO;
+            }).toList();
+            dto.setDirectionsDTO(directionDetalleDTO);
+            return dto;
+
         }).orElseThrow(
                 ()  -> new UserException("Cuenta no encontrada, no se puede actualizar el telefono")
         );
