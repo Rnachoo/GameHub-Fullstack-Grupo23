@@ -2,6 +2,9 @@ package com.GameHub.controllers;
 
 import com.GameHub.models.Category;
 import com.GameHub.models.dtos.CategoryDetalleDTO;
+import com.GameHub.models.dtos.CategorySaveDTO;
+import com.GameHub.models.dtos.CategoryUpdateDescripcionDTO;
+import com.GameHub.models.dtos.CategoryUpdateNombreDTO;
 import com.GameHub.services.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,34 +23,34 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryDetalleDTO>> findAll(){
+    public ResponseEntity<List<com.GameHub.models.dtos.CategoryDetalleDTO>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDetalleDTO> findByID(@PathVariable Long id){
+    public ResponseEntity<com.GameHub.models.dtos.CategoryDetalleDTO> findByID(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Category> save(@Valid @RequestBody Category category){
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.save(category));
+    public ResponseEntity<CategoryDetalleDTO> save(@Valid @RequestBody CategorySaveDTO categorySaveDTO){
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.save(categorySaveDTO));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Category> desactiveByID(@PathVariable Long id){
-        Category category = categoryService.desactiveById(id);
+    public ResponseEntity<CategoryDetalleDTO> desactiveByID(@PathVariable Long id){
+        CategoryDetalleDTO category = categoryService.desactiveById(id);
         return ResponseEntity.ok(category);
     }
 
     @PatchMapping("/{id}/nombreCategory")
-    public ResponseEntity <Category> updateNombre(@PathVariable Long id, @Valid @RequestBody String nombreCategory){
-        return ResponseEntity.status(HttpStatus.OK).body(categoryService.updateNombre(id, nombreCategory));
+    public ResponseEntity <CategoryDetalleDTO> updateNombre(@PathVariable Long id, @Valid @RequestBody CategoryUpdateNombreDTO nombreDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.updateNombre(id, nombreDTO));
     }
 
     @PatchMapping("/{id}/descripcion")
-    public ResponseEntity <Category> updateDescripcion(@PathVariable Long id, @Valid @RequestBody String descripcion){
-        return ResponseEntity.status(HttpStatus.OK).body(categoryService.updateDescripcion(id, descripcion));
+    public ResponseEntity <CategoryDetalleDTO> updateDescripcion(@PathVariable Long id, @Valid @RequestBody CategoryUpdateDescripcionDTO descripcionDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.updateDescripcion(id, descripcionDTO));
     }
 
 }
