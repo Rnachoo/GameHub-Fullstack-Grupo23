@@ -1,5 +1,6 @@
 package com.gamehub.msvc_product.services;
 
+import com.gamehub.msvc_product.exceptions.ProductException;
 import com.gamehub.msvc_product.models.Product;
 import com.gamehub.msvc_product.models.dtos.ProductRequestDTO;
 import com.gamehub.msvc_product.models.dtos.ProductResponseDTO;
@@ -40,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDTO getProductById(Long id) { //buscar por Id
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+                .orElseThrow(() -> new ProductException("Producto no encontrado con ID: " + id));
         log.info("Producto encontrado con ID: {}", id);
         return toResponseDTO(product);
     }
@@ -59,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDTO updateProduct(Long id, ProductRequestDTO requestDTO) { //actualizar info producto
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+                .orElseThrow(() -> new ProductException("Producto no encontrado con ID: " + id));
         product.setNombre(requestDTO.getNombre());
         product.setMarca(requestDTO.getMarca());
         product.setModelo(requestDTO.getModelo());
@@ -75,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deactivateProduct(Long id) { //Desactivar producto
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+                .orElseThrow(() -> new ProductException("Producto no encontrado con ID: " + id));
         product.setEstado(false);
         productRepository.save(product);
         log.info("Producto desactivado con ID: {}", id);
