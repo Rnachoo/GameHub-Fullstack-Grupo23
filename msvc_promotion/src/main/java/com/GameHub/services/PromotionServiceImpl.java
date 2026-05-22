@@ -1,7 +1,9 @@
 package com.GameHub.services;
 
+import com.GameHub.clients.CategoryClient;
 import com.GameHub.exceptions.PromotionException;
 import com.GameHub.models.Promotion;
+import com.GameHub.models.dtos.CategoryDTO;
 import com.GameHub.models.dtos.PromotionDetalleDTO;
 import com.GameHub.models.dtos.PromotionSaveDTO;
 import com.GameHub.models.dtos.PromotionUpdateDateDTO;
@@ -17,6 +19,9 @@ import java.util.List;
 public class PromotionServiceImpl implements PromotionService{
     @Autowired
     private PromotionRepository promotionRepository;
+
+    @Autowired
+    private CategoryClient categoryClient;
 
     @Transactional(readOnly = true)
     @Override
@@ -41,7 +46,7 @@ public class PromotionServiceImpl implements PromotionService{
 
     @Transactional(readOnly = true)
     @Override
-    public List<PromotionDetalleDTO> findCurrent(String estado) {
+    public List<PromotionDetalleDTO> findCurrent() {
         log.info("Abriendo lista de historial de promociones");
         return this.promotionRepository.findByEstado("Active").stream().map(promotion -> {
             PromotionDetalleDTO dto = new PromotionDetalleDTO();
@@ -105,31 +110,40 @@ public class PromotionServiceImpl implements PromotionService{
         if(this.promotionRepository.findByCodigo(promotionSaveDTO.getCodigo()).isPresent()){
             throw new PromotionException("Promocion con codigo "+promotionSaveDTO.getCodigo()+ " no encontrada");
         }
-        Promotion promotion = new Promotion();
-        promotion.setCodigo(promotionSaveDTO.getEstado());
-        promotion.setValor(promotionSaveDTO.getValor());
-        promotion.setTipo(promotionSaveDTO.getTipo());
-        promotion.setFechaInicio(promotionSaveDTO.getFechaInicio());
-        promotion.setFechaFin(promotionSaveDTO.getFechaFin());
-        promotion.setMontoMinimo(promotionSaveDTO.getMontoMinimo());
-        promotion.setUsosMaximos(promotionSaveDTO.getUsosMaximos());
-        promotion.setEstado("Active");
+        if(promotionSaveDTO.getCategoryId() != null) {
+            CategoryDTO categoria = categoryClient.getCategoryById(promotionSaveDTO.getCategoryId());
+            if (categoria == null) {
+                throw new PromotionException("La categoría ingresada no existe");
+            }
 
-        promotion = promotionRepository.save(promotion);
-        log.info("Promocion con codigo "+promotion.getCodigo()+" creada con exito!");
-        PromotionDetalleDTO dto = new PromotionDetalleDTO();
-        dto.setId(promotion.getId());
-        dto.setCodigo(promotion.getCodigo());
-        dto.setValor(promotion.getValor());
-        dto.setTipo(promotion.getTipo());
-        dto.setFechaInicio(promotion.getFechaInicio());
-        dto.setFechaFin(promotion.getFechaFin());
-        dto.setMontoMinimo(promotion.getMontoMinimo());
-        dto.setUsosMaximos(promotion.getUsosMaximos());
-        dto.setEstado(promotion.getEstado());
+            Promotion promotion = new Promotion();
+            promotion.setCodigo(promotionSaveDTO.getCodigo());
+            promotion.setValor(promotionSaveDTO.getValor());
+            promotion.setTipo(promotionSaveDTO.getTipo());
+            promotion.setFechaInicio(promotionSaveDTO.getFechaInicio());
+            promotion.setFechaFin(promotionSaveDTO.getFechaFin());
+            promotion.setMontoMinimo(promotionSaveDTO.getMontoMinimo());
+            promotion.setUsosMaximos(promotionSaveDTO.getUsosMaximos());
+            promotion.setEstado("Active");
 
-        return dto;
+            promotion = promotionRepository.save(promotion);
+            log.info("Promocion con codigo " + promotion.getCodigo() + " creada con exito!");
 
+            PromotionDetalleDTO dto = new PromotionDetalleDTO();
+            dto.setId(promotion.getId());
+            dto.setCodigo(promotion.getCodigo());
+            dto.setValor(promotion.getValor());
+            dto.setTipo(promotion.getTipo());
+            dto.setFechaInicio(promotion.getFechaInicio());
+            dto.setFechaFin(promotion.getFechaFin());
+            dto.setMontoMinimo(promotion.getMontoMinimo());
+            dto.setUsosMaximos(promotion.getUsosMaximos());
+            dto.setEstado(promotion.getEstado());
+
+            return dto;
+        }else{
+            throw new PromotionException("El ID de la categoría es obligatorio");
+        }
     }
 
     @Transactional

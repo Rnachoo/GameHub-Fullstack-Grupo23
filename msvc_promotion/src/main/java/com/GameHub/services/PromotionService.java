@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PromotionService {
     List<PromotionDetalleDTO> findAll();
-    List<PromotionDetalleDTO> findCurrent(String estado);//Arreglar
+    List<PromotionDetalleDTO> findCurrent();//Arreglar
     PromotionDetalleDTO findById(Long id);
     PromotionDetalleDTO findByCodigo(String codigo);
     PromotionDetalleDTO save(PromotionSaveDTO promotionSaveDTO);

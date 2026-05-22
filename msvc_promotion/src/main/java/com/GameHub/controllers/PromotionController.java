@@ -25,8 +25,8 @@ public class PromotionController {
     }
 
     @GetMapping("/{id}") //Arreglar
-    public ResponseEntity<List<PromotionDetalleDTO>> findCurrent(@PathVariable String estado){
-        return ResponseEntity.status(HttpStatus.OK).body(promotionService.findCurrent(estado));
+    public ResponseEntity<List<PromotionDetalleDTO>> findCurrent(){
+        return ResponseEntity.status(HttpStatus.OK).body(promotionService.findCurrent());
     }
 
     @GetMapping("/{id}")

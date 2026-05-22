@@ -31,5 +31,7 @@ public class PromotionSaveDTO {
     private double montoMinimo;
     private Long usosMaximos;
     private String estado;
+
+    private Long categoryId;
 }
 
