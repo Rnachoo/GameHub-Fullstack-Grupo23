@@ -1,10 +1,9 @@
-package com.gamehub.msvc_product.repositories;
-import com.gamehub.msvc_product.models.Product;
+package com.GameHub.repositories;
+import com.GameHub.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 

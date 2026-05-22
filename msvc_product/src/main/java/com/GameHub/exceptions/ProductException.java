@@ -1,4 +1,4 @@
-package com.gamehub.msvc_product.exceptions;
+package com.GameHub.exceptions;
 
 public class ProductException extends RuntimeException {
     public ProductException(String message) {

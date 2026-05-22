@@ -1,8 +1,8 @@
-package com.gamehub.msvc_product.controllers;
+package com.GameHub.controllers;
 
-import com.gamehub.msvc_product.models.dtos.ProductRequestDTO;
-import com.gamehub.msvc_product.models.dtos.ProductResponseDTO;
-import com.gamehub.msvc_product.services.ProductService;
+import com.GameHub.models.dtos.ProductRequestDTO;
+import com.GameHub.models.dtos.ProductResponseDTO;
+import com.GameHub.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,10 +1,10 @@
-package com.gamehub.msvc_product.services;
+package com.GameHub.services;
 
-import com.gamehub.msvc_product.exceptions.ProductException;
-import com.gamehub.msvc_product.models.Product;
-import com.gamehub.msvc_product.models.dtos.ProductRequestDTO;
-import com.gamehub.msvc_product.models.dtos.ProductResponseDTO;
-import com.gamehub.msvc_product.repositories.ProductRepository;
+import com.GameHub.exceptions.ProductException;
+import com.GameHub.models.Product;
+import com.GameHub.models.dtos.ProductRequestDTO;
+import com.GameHub.models.dtos.ProductResponseDTO;
+import com.GameHub.repositories.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

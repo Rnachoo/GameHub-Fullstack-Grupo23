@@ -1,4 +1,4 @@
-package com.gamehub.msvc_product.models.dtos;
+package com.GameHub.models.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
