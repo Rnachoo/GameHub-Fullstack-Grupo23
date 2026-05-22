@@ -68,7 +68,7 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentDetalleDTO findById(Long id) {
         log.info("Buscando pagos registrados por el id");
         Payment payment = this.paymentRepository.findById(id).orElseThrow(
-                ()-> new PaymentException("Pago con ID " + id + " no encontrado"));
+                () -> new PaymentException("Pago con ID " + id + " no encontrado"));
         PaymentDetalleDTO dto = new PaymentDetalleDTO();
         dto.setId(payment.getId());
         dto.setOrdenId(payment.getOrdenId());
@@ -91,7 +91,7 @@ public class PaymentServiceImpl implements PaymentService {
         if (orden == null) {
             throw new PaymentException("La orden a pagar no existe");
         }
-        if (orden.getTotal() != paymentSaveDTO.getMonto()) {
+        if (Double.compare(orden.getTotal(), paymentSaveDTO.getMonto()) != 0) {
             throw new PaymentException("El monto de la compra debe coincidir con el total de la orden");
         }
         if (this.paymentRepository.existsByOrdenidAndEstado(paymentSaveDTO.getOrdenId(), "APROBADO")) {
@@ -106,6 +106,8 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setFecha(java.time.LocalDateTime.now());
 
         payment = paymentRepository.save(payment);
+        log.info("Pago guardada con exito");
+
         PaymentDetalleDTO dto = new PaymentDetalleDTO();
         dto.setId(payment.getId());
         dto.setOrdenId(payment.getOrdenId());
@@ -120,13 +122,44 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Transactional
     @Override
-    public PaymentDetalleDTO updateEstado(PaymentUpdateEstadoDTO paymentUpdateEstadoDTO) {
-        return null;
-    }
+    public PaymentDetalleDTO updateEstado(Long id, PaymentUpdateEstadoDTO paymentUpdateEstadoDTO) {
+        return this.paymentRepository.findById(id).map(payment -> {
+            payment.setEstado(paymentUpdateEstadoDTO.getEstado());
+            log.info("Estado del pago actualizado con exito");
+            payment = this.paymentRepository.save(payment);
+            PaymentDetalleDTO dto = new PaymentDetalleDTO();
+            dto.setId(payment.getId());
+            dto.setOrdenId(payment.getOrdenId());
+            dto.setMonto(payment.getMonto());
+            dto.setMetodo(payment.getMetodo());
+            dto.setEstado(payment.getEstado());
+            dto.setCodigoTransaccion(payment.getCodigoTransaccion());
+            dto.setFecha(payment.getFecha());
+            return dto;
+
+        }).orElseThrow(
+                () -> new PaymentException("Pago no encontrado, no se puede actualizar el estado")
+        );
+}
+
 
     @Transactional
     @Override
-    public PaymentDetalleDTO nullById() {
-        return null;
+    public PaymentDetalleDTO nullById(Long id) {
+        Payment payment = this.paymentRepository.findById(id).orElseThrow(
+                () -> new PaymentException("Pago con ID " + id+ " no encontrada"));
+        payment.setEstado("ANULADO");
+        payment = paymentRepository.save(payment);
+        log.info("Pago con id "+id+" ha sido anulado");
+        PaymentDetalleDTO dto = new PaymentDetalleDTO();
+        dto.setId(payment.getId());
+        dto.setOrdenId(payment.getOrdenId());
+        dto.setMonto(payment.getMonto());
+        dto.setMetodo(payment.getMetodo());
+        dto.setEstado(payment.getEstado());
+        dto.setCodigoTransaccion(payment.getCodigoTransaccion());
+        dto.setFecha(payment.getFecha());
+        return dto;
     }
+
 }

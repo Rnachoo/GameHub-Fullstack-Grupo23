@@ -11,6 +11,6 @@ public interface PaymentService {
     List<PaymentDetalleDTO> findAllByEstado(String estado);
     PaymentDetalleDTO findById(Long id);
     PaymentDetalleDTO save (PaymentSaveDTO paymentSaveDTO);
-    PaymentDetalleDTO updateEstado(PaymentUpdateEstadoDTO paymentUpdateEstadoDTO);
-    PaymentDetalleDTO nullById();
+    PaymentDetalleDTO updateEstado(Long id, PaymentUpdateEstadoDTO paymentUpdateEstadoDTO);
+    PaymentDetalleDTO nullById(Long id);
 }
