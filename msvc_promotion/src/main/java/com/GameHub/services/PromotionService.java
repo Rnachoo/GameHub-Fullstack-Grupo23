@@ -1,6 +1,5 @@
 package com.GameHub.services;
 
-import com.GameHub.models.Promotion;
 import com.GameHub.models.dtos.PromotionDetalleDTO;
 import com.GameHub.models.dtos.PromotionSaveDTO;
 import com.GameHub.models.dtos.PromotionUpdateDateDTO;

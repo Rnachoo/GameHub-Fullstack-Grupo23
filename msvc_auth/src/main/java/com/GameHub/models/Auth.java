@@ -37,6 +37,8 @@ public class Auth {
 
 
     private String rol;
+
+    @NotBlank(message = "El estado es obligatorio y no puede estar vacia")
     private String estado;
     @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
