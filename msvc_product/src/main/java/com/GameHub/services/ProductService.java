@@ -1,7 +1,7 @@
-package com.gamehub.msvc_product.services;
+package com.GameHub.services;
 
-import com.gamehub.msvc_product.models.dtos.ProductRequestDTO;
-import com.gamehub.msvc_product.models.dtos.ProductResponseDTO;
+import com.GameHub.models.dtos.ProductRequestDTO;
+import com.GameHub.models.dtos.ProductResponseDTO;
 
 import java.util.List;
 
