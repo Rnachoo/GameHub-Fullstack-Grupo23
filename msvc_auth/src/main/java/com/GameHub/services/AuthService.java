@@ -1,6 +1,5 @@
 package com.GameHub.services;
 
-import com.GameHub.models.Auth;
 import com.GameHub.models.dtos.AuthDetalleDTO;
 import com.GameHub.models.dtos.AuthSaveDTO;
 import com.GameHub.models.dtos.AuthUpdatePasswordDTO;

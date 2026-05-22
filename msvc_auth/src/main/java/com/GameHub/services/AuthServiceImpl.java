@@ -23,7 +23,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional(readOnly = true)
     @Override
     public List<AuthDetalleDTO> findAll() {//Listar todas las cuentas
-        log.info("Abriendo Listando cuentas registradas en el sistema!");
+        log.info("Listando cuentas registradas en el sistema!");
         return this.authRepository.findAll().stream().map(auth -> {
             AuthDetalleDTO dto = new AuthDetalleDTO();
             dto.setId(auth.getId());
@@ -113,7 +113,7 @@ public class AuthServiceImpl implements AuthService {
         Auth auth = this.authRepository.findById(id).orElseThrow(
                 () -> new AuthException("Cuenta con ID " + id + " no encontrado"));
 
-        auth.setEstado("Inactivo");//Funciona por estado Active o Inactive, la idea es imposibilitar su uso sin borrar los datos
+        auth.setEstado("Inactive");//Funciona por estado Active o Inactive, la idea es imposibilitar su uso sin borrar los datos
         auth = authRepository.save(auth);
         log.info("Cuenta con id "+id+" Ha sido desactivada");
 

@@ -24,7 +24,8 @@
 		<module>msvc_auth</module>
 		<module>msvc_user</module>
 		<module>msvc_category</module>
-	</modules>
+        <module>msvc_promotion</module>
+    </modules>
 	<scm>
 		<connection/>
 		<developerConnection/>
