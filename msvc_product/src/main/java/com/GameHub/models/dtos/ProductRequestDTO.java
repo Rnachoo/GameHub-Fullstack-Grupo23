@@ -1,0 +1,31 @@
+package com.GameHub.models.dtos;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
+import jakarta.validation.constraints.*;
+
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProductRequestDTO {
+
+    @NotBlank(message = "El nombre del producto es obligatorio y no puede estar vacío.")
+    private String nombre;
+
+    @NotBlank(message = "La marca del producto es obligatoria.")
+    private String marca;
+
+    private String modelo;
+
+    @NotNull(message = "El precio es obligatorio.")
+    @Positive(message = "El precio debe ser un número mayor que cero.")
+    private BigDecimal precio;
+
+    @NotNull(message = "El ID de la categoria es obligatorio.")
+    private Long categoriaId;
+
+    private String descripcion;
+}
