@@ -108,7 +108,7 @@ public class PromotionServiceImpl implements PromotionService{
     @Override
     public PromotionDetalleDTO save(PromotionSaveDTO promotionSaveDTO) {
         if(this.promotionRepository.findByCodigo(promotionSaveDTO.getCodigo()).isPresent()){
-            throw new PromotionException("Promocion con codigo "+promotionSaveDTO.getCodigo()+ " no encontrada");
+            throw new PromotionException("Promocion con codigo "+promotionSaveDTO.getCodigo()+ " a esta registrada");
         }
         if(promotionSaveDTO.getCategoryId() != null) {
             CategoryDTO categoria = categoryClient.getCategoryById(promotionSaveDTO.getCategoryId());
@@ -197,4 +197,7 @@ public class PromotionServiceImpl implements PromotionService{
     }
 
 
+    //Logica implementada del msvc
+
+    //Agregar cuando este el product
 }

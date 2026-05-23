@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -102,7 +103,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setMonto(paymentSaveDTO.getMonto());
         payment.setMetodo(paymentSaveDTO.getMetodo());
         payment.setEstado("APROBADO");
-        payment.setCodigoTransaccion(payment.getCodigoTransaccion());
+        payment.setCodigoTransaccion(UUID.randomUUID().toString());
         payment.setFecha(java.time.LocalDateTime.now());
 
         payment = paymentRepository.save(payment);

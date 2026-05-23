@@ -64,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService{
         dto.setId(category.getId());
         dto.setNombreCategory(category.getNombreCategory());
         dto.setDescripcion(category.getDescripcion());
-        dto.setId(category.getId());
+        dto.setEstado("Active");
         return dto;
     }
 
@@ -80,7 +80,7 @@ public class CategoryServiceImpl implements CategoryService{
         dto.setId(category.getId());
         dto.setNombreCategory(category.getNombreCategory());
         dto.setDescripcion(category.getDescripcion());
-        dto.setId(category.getId());
+        dto.setEstado("Active");
         return dto;
     }
 
@@ -96,7 +96,7 @@ public class CategoryServiceImpl implements CategoryService{
             dto.setId(category.getId());
             dto.setNombreCategory(category.getNombreCategory());
             dto.setDescripcion(category.getDescripcion());
-            dto.setId(category.getId());
+            dto.setEstado("Active");
             return dto;
 
         }).orElseThrow(
