@@ -167,4 +167,36 @@ public class AuthServiceImpl implements AuthService {
                 () -> new AuthException("Cuenta no encontrada, no se puede actualizar el rol")
         );
     }
+
+    //Logica implementada del msvc
+
+    @Transactional
+    @Override
+    public AuthDetalleDTO login(AuthLoginDTO authLoginDTO){
+         if(authLoginDTO.getEmail() == null || authLoginDTO.getEmail().isBlank()) {
+             throw new AuthException("El email no puede estar vacio");
+        }
+        if(authLoginDTO.getPassword() == null || authLoginDTO.getPassword().isBlank()){
+            throw new AuthException("La contraseña no puede estar vacia");
+        }
+        Auth auth = this.authRepository.findByEmail(authLoginDTO.getEmail()).orElseThrow(
+                () -> new AuthException("Credenciales Invalidas"));
+
+        if(!"Active".equalsIgnoreCase(auth.getEstado())){
+            log.warn("La cuenta con email "+auth.getEmail()+" esta desactivada");
+            throw new AuthException("El usuario esta inactivo, no se puede iniciar sesión");
+        }
+        if(!auth.getPassword().equals(authLoginDTO.getPassword())){
+            log.warn("Cuenta con email "+auth.getEmail()+" Fallo al escribir la contraseña");
+            throw new AuthException("Contraseña invalida");
+        }
+        log.info("Login exitoso para la cuenta con email"+auth.getEmail());
+        AuthDetalleDTO dto = new AuthDetalleDTO();
+        dto.setId(auth.getId());
+        dto.setEmail(auth.getEmail());
+        dto.setEstado(auth.getEstado());
+        dto.setRol(auth.getRol());
+
+        return dto;
+    }
 }

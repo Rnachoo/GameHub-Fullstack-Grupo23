@@ -1,10 +1,7 @@
 package com.GameHub.controllers;
 
 import com.GameHub.models.Auth;
-import com.GameHub.models.dtos.AuthDetalleDTO;
-import com.GameHub.models.dtos.AuthSaveDTO;
-import com.GameHub.models.dtos.AuthUpdatePasswordDTO;
-import com.GameHub.models.dtos.AuthUpdateRolDTO;
+import com.GameHub.models.dtos.*;
 import com.GameHub.services.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,4 +56,9 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(authService.updateRol(id, rolDTO));
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<AuthDetalleDTO> login(@RequestBody AuthLoginDTO authLoginDTO) {
+        AuthDetalleDTO response = authService.login(authLoginDTO);
+        return ResponseEntity.ok(response);
+    }
 }
