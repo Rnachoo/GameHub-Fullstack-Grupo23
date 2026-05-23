@@ -1,4 +1,4 @@
-package com.gamehub.msvc_product.controllers;
+package com.GameHub.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

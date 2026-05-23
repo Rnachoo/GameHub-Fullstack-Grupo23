@@ -1,4 +1,4 @@
-package com.gamehub.msvc_product.models;
+package com.GameHub.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
