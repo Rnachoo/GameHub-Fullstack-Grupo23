@@ -25,7 +25,7 @@
 		<module>msvc_user</module>
 		<module>msvc_category</module>
         <module>msvc_promotion</module>
-		<module>msvc_product</module>
+		<module>msvc_payment</module>
     </modules>
 	<scm>
 		<connection/>
