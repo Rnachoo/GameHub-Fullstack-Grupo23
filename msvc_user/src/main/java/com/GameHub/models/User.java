@@ -41,6 +41,8 @@ public class User {
     private String telefono;
 
     private String rol;
+
+    @NotBlank(message = "El estado es obligatorio y no puede estar vacia")
     private String estado;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

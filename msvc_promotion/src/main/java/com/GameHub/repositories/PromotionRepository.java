@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PromotionRepository extends JpaRepository<Promotion, Long> {
-    List<PromotionDetalleDTO> findByEstado(String estado);
+    List<Promotion> findByEstado(String estado);
     Optional<Promotion> findByCodigo(String Codigo);
 
 }

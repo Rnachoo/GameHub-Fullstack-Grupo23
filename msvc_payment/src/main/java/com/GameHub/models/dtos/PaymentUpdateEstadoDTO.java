@@ -10,8 +10,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class UserUpdateTelefonoDTO {
+public class PaymentUpdateEstadoDTO {
+    @NotBlank(message = "El estado del pago es obligatorio")
+    private String estado;
 
-    @NotBlank(message = "El número de telefono es obligatorio")
-    private String telefono;
 }

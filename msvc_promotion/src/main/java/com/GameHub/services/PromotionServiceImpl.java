@@ -69,7 +69,7 @@ public class PromotionServiceImpl implements PromotionService{
     public PromotionDetalleDTO findById(Long id) {
         log.info("Buscando promociones registradas en el sistema!");
         Promotion promotion = this.promotionRepository.findById(id).orElseThrow(
-                () -> new PromotionException("Cuenta con Id "+ id + " no encontrada"));
+                () -> new PromotionException("Promocion con Id "+ id + " no encontrada"));
         PromotionDetalleDTO dto = new PromotionDetalleDTO();
         dto.setId(promotion.getId());
         dto.setCodigo(promotion.getCodigo());
@@ -120,7 +120,7 @@ public class PromotionServiceImpl implements PromotionService{
             promotion.setCodigo(promotionSaveDTO.getCodigo());
             promotion.setValor(promotionSaveDTO.getValor());
             promotion.setTipo(promotionSaveDTO.getTipo());
-            promotion.setFechaInicio(promotionSaveDTO.getFechaInicio());
+            promotion.setFechaInicio(java.time.LocalDateTime.now());
             promotion.setFechaFin(promotionSaveDTO.getFechaFin());
             promotion.setMontoMinimo(promotionSaveDTO.getMontoMinimo());
             promotion.setUsosMaximos(promotionSaveDTO.getUsosMaximos());
@@ -180,7 +180,7 @@ public class PromotionServiceImpl implements PromotionService{
                 () -> new PromotionException("Promocion con ID" +id+ " no encontrada"));
         promotion.setEstado("Inactive");
         promotion = promotionRepository.save(promotion);
-        log.info("Cuenta con ID "+ id+ " ha sido desactivada");
+        log.info("Promocion con ID "+ id+ " ha sido desactivada");
 
         PromotionDetalleDTO dto = new PromotionDetalleDTO();
         dto.setId(promotion.getId());
