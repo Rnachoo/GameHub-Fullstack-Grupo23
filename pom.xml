@@ -27,6 +27,7 @@
         <module>msvc_promotion</module>
 		<module>msvc_payment</module>
 		<module>msvc_inventory</module>
+        <module>msvc_order</module>
     </modules>
 	<scm>
 		<connection/>

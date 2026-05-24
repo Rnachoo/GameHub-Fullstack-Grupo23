@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @NoArgsConstructor
-public class Promotion {
+public class    Promotion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
