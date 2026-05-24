@@ -82,7 +82,7 @@ public class InventoryServiceImpl implements InventoryService {
         try {
             product = productClient.getProductById(inventorySaveDTO.getProductId());
         } catch (FeignException e) {
-            log.error("Error al consultar product-service para el producto con ID " +inventorySaveDTO.getProductId());
+            log.error("Error al consultar msvc-product para el producto con ID " +inventorySaveDTO.getProductId());
             throw new InventoryException("El producto con ID " + inventorySaveDTO.getProductId() + " no existe o el servicio no está disponible. No se puede crear el inventario.");
         }
 

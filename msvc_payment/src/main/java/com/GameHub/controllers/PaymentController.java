@@ -20,12 +20,12 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
-    @GetMapping
+    @GetMapping("/orden/{ordenId}")
     public ResponseEntity<List<PaymentDetalleDTO>> findAllByOrdenId(@PathVariable Long ordenId){
         return ResponseEntity.status(HttpStatus.OK).body(paymentService.findAllByOrdenId(ordenId));
     }
 
-    @GetMapping
+    @GetMapping("/estado/{estado}")
     public ResponseEntity<List<PaymentDetalleDTO>> findAllByEstado(@PathVariable String estado){
         return ResponseEntity.status(HttpStatus.OK).body(paymentService.findAllByEstado(estado));
     }

@@ -25,7 +25,7 @@ public class PromotionController {
         return ResponseEntity.status(HttpStatus.OK).body(promotionService.findAll());
     }
 
-    @GetMapping("/{id}") //Arreglar
+    @GetMapping("/current")
     public ResponseEntity<List<PromotionDetalleDTO>> findCurrent(){
         return ResponseEntity.status(HttpStatus.OK).body(promotionService.findCurrent());
     }

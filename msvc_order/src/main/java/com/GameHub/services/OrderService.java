@@ -9,7 +9,8 @@ import java.util.List;
 public interface OrderService {
     List<OrderDetalleDTO> findByClient(Long userId);
     List<OrderDetalleDTO> findByEstado(String estado);
+    OrderDetalleDTO findById(Long id);
     OrderDetalleDTO save (OrderSaveDTO orderSaveDTO);
     OrderDetalleDTO updateEstado(Long id, OrderUpdateEstadoDTO orderUpdateEstadoDTO);
-    void cancelarOrden(Long ordenId);
+    void cancelarOrden(Long id);
 }
