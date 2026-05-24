@@ -23,6 +23,7 @@ public class Direction {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
+    @ToString.Exclude
     private User user;
 
     //El informe no lo especifica, pero estos apartados no pueden ser vacio dado que no se encontraría la dirreción exacta para entregas de producto.
