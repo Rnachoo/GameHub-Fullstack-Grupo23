@@ -1,5 +1,6 @@
 package com.GameHub.controllers;
 
+import com.GameHub.models.dtos.PromotionAplicarDescuentoDTO;
 import com.GameHub.models.dtos.PromotionDetalleDTO;
 import com.GameHub.models.dtos.PromotionSaveDTO;
 import com.GameHub.models.dtos.PromotionUpdateDateDTO;
@@ -55,5 +56,11 @@ public class PromotionController {
     @PatchMapping("/{id}/Date")
     public ResponseEntity<PromotionDetalleDTO> updateDate (@PathVariable Long id, @Valid @RequestBody PromotionUpdateDateDTO promotionUpdateDateDTO){
         return ResponseEntity.status(HttpStatus.OK).body(promotionService.updateDate(id, promotionUpdateDateDTO));
+    }
+
+    @PostMapping("/{codigo}/aplicar")
+    public ResponseEntity<PromotionDetalleDTO> aplicarPromocion(@PathVariable PromotionAplicarDescuentoDTO aplicarDescuentoDTO, @RequestParam Double totalOrden) {
+        PromotionDetalleDTO promotionAplicada = promotionService.aplicarPromocion(aplicarDescuentoDTO, totalOrden);
+        return ResponseEntity.ok(promotionAplicada);
     }
 }

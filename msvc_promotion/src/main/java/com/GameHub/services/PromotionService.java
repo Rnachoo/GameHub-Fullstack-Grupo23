@@ -1,5 +1,6 @@
 package com.GameHub.services;
 
+import com.GameHub.models.dtos.PromotionAplicarDescuentoDTO;
 import com.GameHub.models.dtos.PromotionDetalleDTO;
 import com.GameHub.models.dtos.PromotionSaveDTO;
 import com.GameHub.models.dtos.PromotionUpdateDateDTO;
@@ -14,5 +15,6 @@ public interface PromotionService {
     PromotionDetalleDTO save(PromotionSaveDTO promotionSaveDTO);
     PromotionDetalleDTO updateDate(Long id, PromotionUpdateDateDTO promotionUpdateDateDTO);
     PromotionDetalleDTO desactiveById(Long id);
+    PromotionDetalleDTO aplicarPromocion(PromotionAplicarDescuentoDTO aplicarDescuentoDTO, Double totalOrden);
 
 }
