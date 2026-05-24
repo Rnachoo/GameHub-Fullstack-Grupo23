@@ -8,6 +8,7 @@ import com.GameHub.models.dtos.PaymentDetalleDTO;
 import com.GameHub.models.dtos.PaymentSaveDTO;
 import com.GameHub.models.dtos.PaymentUpdateEstadoDTO;
 import com.GameHub.repositories.PaymentRepository;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,12 +86,16 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     @Override
     public PaymentDetalleDTO save(PaymentSaveDTO paymentSaveDTO) {
+
         if (paymentSaveDTO.getOrdenId() == null) {
             throw new PaymentException("El ID de la orden es obligatorio");
         }
-        OrdenDTO orden = ordenClient.getOrdenById(paymentSaveDTO.getOrdenId());
-        if (orden == null) {
-            throw new PaymentException("La orden a pagar no existe");
+        OrdenDTO orden;
+        try {
+            orden = ordenClient.getOrdenById(paymentSaveDTO.getOrdenId());
+        } catch (FeignException e) {
+            log.error("Error al consultar la orden ID "+ paymentSaveDTO.getOrdenId());
+            throw new PaymentException("La orden a pagar no existe o el servicio no responde");
         }
         if (Double.compare(orden.getTotal(), paymentSaveDTO.getMonto()) != 0) {
             throw new PaymentException("El monto de la compra debe coincidir con el total de la orden");
@@ -107,7 +112,14 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setFecha(java.time.LocalDateTime.now());
 
         payment = paymentRepository.save(payment);
-        log.info("Pago guardada con exito");
+        log.info("Pago registrado con exito");
+        try {
+            log.info("Notificando al order-service para actualizar estado de la orden "+orden.getId()+" a 'PAGADA'");
+            ordenClient.actualizarEstadoOrden(orden.getId(), "PAGADA");
+        } catch (FeignException e) {
+            log.error("Error critico al actualizar el estado en order-service para la orden ID"+orden.getId());
+            throw new PaymentException("El pago fue procesado, pero no se pudo actualizar el estado de la orden. Operación cancelada.");
+        }
 
         PaymentDetalleDTO dto = new PaymentDetalleDTO();
         dto.setId(payment.getId());
@@ -162,5 +174,6 @@ public class PaymentServiceImpl implements PaymentService {
         dto.setFecha(payment.getFecha());
         return dto;
     }
+
 
 }

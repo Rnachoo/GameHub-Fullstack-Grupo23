@@ -52,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public CategoryDetalleDTO save(CategorySaveDTO categorySaveDTO) {
         if(this.categoryRepository.existeNombre(categorySaveDTO.getNombreCategory())){
-            throw new RuntimeException("Ya existe una categoria registrada con ese nombre");
+            throw new CategoryException("Ya existe una categoria registrada con ese nombre");
         }
         Category category = new Category();
         category.setNombreCategory(categorySaveDTO.getNombreCategory());
@@ -80,7 +80,7 @@ public class CategoryServiceImpl implements CategoryService{
         dto.setId(category.getId());
         dto.setNombreCategory(category.getNombreCategory());
         dto.setDescripcion(category.getDescripcion());
-        dto.setEstado("Active");
+        dto.setEstado(category.getEstado());
         return dto;
     }
 
@@ -96,7 +96,7 @@ public class CategoryServiceImpl implements CategoryService{
             dto.setId(category.getId());
             dto.setNombreCategory(category.getNombreCategory());
             dto.setDescripcion(category.getDescripcion());
-            dto.setEstado("Active");
+            dto.setEstado(category.getEstado());
             return dto;
 
         }).orElseThrow(
@@ -116,7 +116,7 @@ public class CategoryServiceImpl implements CategoryService{
             dto.setId(category.getId());
             dto.setNombreCategory(category.getNombreCategory());
             dto.setDescripcion(category.getDescripcion());
-            dto.setId(category.getId());
+            dto.setEstado(category.getEstado());
             return dto;
 
 

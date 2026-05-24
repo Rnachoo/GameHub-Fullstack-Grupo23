@@ -35,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
                 dto.setUser(user);
             }catch (FeignException e){
                 log.error("Error de Conexión con el email "+ auth.getEmail());
-                throw new RuntimeException("Cuenta con email "+ auth.getEmail()+" no existe");
+                throw new AuthException("Cuenta con email "+ auth.getEmail()+" no existe");
             }
             return dto;
         }).toList();
@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
             dto.setUser(user);
         }catch (FeignException e){
             log.error("Error de Conexion con el usuario con correo "+ auth.getEmail());
-            throw new RuntimeException("Cuenta con email "+ auth.getEmail()+" no existe");
+            throw new AuthException("Cuenta con email "+ auth.getEmail()+" no existe");
         }
         return dto;
     }
@@ -79,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
             dto.setUser(user);
         } catch (FeignException e) {
             log.error("Error de conexión con user con email "+ auth.getEmail());
-            throw new RuntimeException("Cuenta con email "+ auth.getEmail()+" encontrada, pero no se puede obtener la información.");
+            throw new AuthException("Cuenta con email "+ auth.getEmail()+" encontrada, pero no se puede obtener la información.");
         }
         return dto;
     }

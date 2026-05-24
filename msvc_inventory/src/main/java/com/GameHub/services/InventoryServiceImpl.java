@@ -6,6 +6,7 @@ import com.GameHub.models.Inventory;
 import com.GameHub.models.MovimientoInventario;
 import com.GameHub.models.dtos.*;
 import com.GameHub.repositories.InventoryRepository;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,9 +78,12 @@ public class InventoryServiceImpl implements InventoryService {
     @Transactional
     @Override
     public InventoryDetalleDTO save(InventorySaveDTO inventorySaveDTO) {
-        ProductDTO product = productClient.getProductById(inventorySaveDTO.getProductId());
-        if(product == null){
-            throw new InventoryException("El producto no existe, no se puede crear el invetnario");
+        ProductDTO product;
+        try {
+            product = productClient.getProductById(inventorySaveDTO.getProductId());
+        } catch (FeignException e) {
+            log.error("Error al consultar product-service para el producto con ID " +inventorySaveDTO.getProductId());
+            throw new InventoryException("El producto con ID " + inventorySaveDTO.getProductId() + " no existe o el servicio no está disponible. No se puede crear el inventario.");
         }
 
         log.info("Creando nuevo inventario para producto con id "+ inventorySaveDTO.getProductId());

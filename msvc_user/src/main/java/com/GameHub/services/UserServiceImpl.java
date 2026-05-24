@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDetalleDTO save(UserSaveDTO userSaveDTO) { //Crear cuenta
         if(this.userRepository.existeEmail(userSaveDTO.getEmail())){
-            throw new RuntimeException("El correo electronico ya esta registrado");
+            throw new UserException("El correo electronico ya esta registrado");
         }
         User user = new User();
         user.setNombreUser(userSaveDTO.getNombreUser());
@@ -234,8 +234,8 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public UserDetalleDTO updateDirection(Long id, UserUpdateDirectionDTO directionDTO) {//Updatear la dirección
-        return this.userRepository.findById(id).map(user ->{
+    public UserDetalleDTO updateDirection(Long id, UserUpdateDirectionDTO directionDTO) {
+        return this.userRepository.findById(id).map(user -> {
             Direction direction = new Direction();
             direction.setComuna(directionDTO.getComuna());
             direction.setCiudad(directionDTO.getCiudad());
@@ -244,7 +244,8 @@ public class UserServiceImpl implements UserService{
 
             direction.setUser(user);
             user.getDirections().add(direction);
-            log.info("Dirección del usuario guardado con exito");
+            user = this.userRepository.save(user);
+            log.info("Dirección del usuario guardada con exito");
 
             UserDetalleDTO dto = new UserDetalleDTO();
             dto.setId(user.getId());
@@ -265,7 +266,7 @@ public class UserServiceImpl implements UserService{
             return dto;
 
         }).orElseThrow(
-                ()  -> new UserException("Cuenta no encontrada, no se puede actualizar el telefono")
+                ()  -> new UserException("Cuenta no encontrada, no se puede actualizar la dirección")
         );
     }
 }
