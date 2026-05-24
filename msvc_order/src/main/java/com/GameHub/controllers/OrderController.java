@@ -31,7 +31,7 @@ public class OrderController {
     }
 
     @GetMapping("/id/{id}")
-    private ResponseEntity<OrderDetalleDTO> findById(@PathVariable Long id){
+    public ResponseEntity<OrderDetalleDTO> findById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(orderService.findById(id));
     }
     @PostMapping

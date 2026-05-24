@@ -15,6 +15,6 @@ public interface PromotionService {
     PromotionDetalleDTO save(PromotionSaveDTO promotionSaveDTO);
     PromotionDetalleDTO updateDate(Long id, PromotionUpdateDateDTO promotionUpdateDateDTO);
     PromotionDetalleDTO desactiveById(Long id);
-    PromotionDetalleDTO aplicarPromocion(PromotionAplicarDescuentoDTO aplicarDescuentoDTO, Double totalOrden);
+    PromotionDetalleDTO aplicarPromocion(String codigo, PromotionAplicarDescuentoDTO aplicarDescuentoDTO, Double totalOrden);
 
 }

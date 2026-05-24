@@ -21,7 +21,7 @@ public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
 
-    @GetMapping
+    @GetMapping("/producto/{productId}")
     public ResponseEntity<List<InventoryDetalleDTO>> findAllByProduct(@PathVariable Long productId){
         return ResponseEntity.status(HttpStatus.OK).body(inventoryService.findAllByProduct(productId));
     }

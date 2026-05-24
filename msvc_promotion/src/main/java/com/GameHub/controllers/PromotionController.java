@@ -59,8 +59,9 @@ public class PromotionController {
     }
 
     @PostMapping("/{codigo}/aplicar")
-    public ResponseEntity<PromotionDetalleDTO> aplicarPromocion(@PathVariable PromotionAplicarDescuentoDTO aplicarDescuentoDTO, @RequestParam Double totalOrden) {
-        PromotionDetalleDTO promotionAplicada = promotionService.aplicarPromocion(aplicarDescuentoDTO, totalOrden);
+    public ResponseEntity<PromotionDetalleDTO> aplicarPromocion(@PathVariable("codigo") String codigo, @RequestBody PromotionAplicarDescuentoDTO aplicarDescuentoDTO, @RequestParam("totalOrden") Double totalOrden) {
+
+        PromotionDetalleDTO promotionAplicada = promotionService.aplicarPromocion(codigo, aplicarDescuentoDTO, totalOrden);
         return ResponseEntity.ok(promotionAplicada);
     }
 }

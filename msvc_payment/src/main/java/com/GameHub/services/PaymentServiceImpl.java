@@ -3,10 +3,7 @@ package com.GameHub.services;
 import com.GameHub.clients.OrdenClient;
 import com.GameHub.exceptions.PaymentException;
 import com.GameHub.models.Payment;
-import com.GameHub.models.dtos.OrdenDTO;
-import com.GameHub.models.dtos.PaymentDetalleDTO;
-import com.GameHub.models.dtos.PaymentSaveDTO;
-import com.GameHub.models.dtos.PaymentUpdateEstadoDTO;
+import com.GameHub.models.dtos.*;
 import com.GameHub.repositories.PaymentRepository;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
@@ -114,8 +111,12 @@ public class PaymentServiceImpl implements PaymentService {
         payment = paymentRepository.save(payment);
         log.info("Pago registrado con exito");
         try {
-            log.info("Notificando al order-service para actualizar estado de la orden "+orden.getId()+" a 'PAGADA'");
-            ordenClient.actualizarEstadoOrden(orden.getId(), "PAGADA");
+            log.info("Notificando al order-service para actualizar estado de la orden " + orden.getId());
+
+            OrderUpdateEstadoDTO estadoDTO = new OrderUpdateEstadoDTO();
+            estadoDTO.setEstado("PAGADA");
+
+            ordenClient.actualizarEstadoOrden(orden.getId(), estadoDTO);
         } catch (FeignException e) {
             log.error("Error critico al actualizar el estado en order-service para la orden ID"+orden.getId());
             throw new PaymentException("El pago fue procesado, pero no se pudo actualizar el estado de la orden. Operación cancelada.");

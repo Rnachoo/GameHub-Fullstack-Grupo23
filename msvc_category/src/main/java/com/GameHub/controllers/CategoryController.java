@@ -1,6 +1,5 @@
 package com.GameHub.controllers;
 
-import com.GameHub.models.Category;
 import com.GameHub.models.dtos.CategoryDetalleDTO;
 import com.GameHub.models.dtos.CategorySaveDTO;
 import com.GameHub.models.dtos.CategoryUpdateDescripcionDTO;

@@ -70,6 +70,31 @@ public class UserServiceImpl implements UserService{
             return dto;
         }).toList();
     }
+    @Transactional(readOnly = true)
+    @Override
+    public List<UserDetalleDTO> findByEmail(String email) {//Filtra por el email del user
+        log.info("Listando usuarios registrados en el sistema!");
+        return this.userRepository.findByRol(email).stream().map(user -> {
+            UserDetalleDTO dto = new UserDetalleDTO();
+            dto.setId(user.getId());
+            dto.setNombreUser(user.getNombreUser());
+            dto.setEmail(user.getEmail());
+            dto.setTelefono(user.getTelefono());
+            dto.setRol(user.getRol());
+            dto.setEstado(user.getEstado());
+
+            List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
+                DirectionDetalleDTO dirDTO = new DirectionDetalleDTO();
+                dirDTO.setComuna(dir.getComuna());
+                dirDTO.setCiudad(dir.getCiudad());
+                dirDTO.setCalle(dir.getCalle());
+                dirDTO.setNumero(dir.getNumero());
+                return dirDTO;
+            }).toList();
+            dto.setDirectionsDTO(directionDTO);
+            return dto;
+        }).toList();
+    }
 
     @Transactional(readOnly = true)
     @Override

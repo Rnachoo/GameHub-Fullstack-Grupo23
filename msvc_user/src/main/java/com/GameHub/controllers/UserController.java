@@ -36,6 +36,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findByRol(rol));
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<List<UserDetalleDTO>> findByEmail(@PathVariable String email){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.findByRol(email));
+    }
+
     @GetMapping("/estado/{estado}")
     public ResponseEntity<List<UserDetalleDTO>> findByEstado(@PathVariable String estado){
         return ResponseEntity.status(HttpStatus.OK).body(userService.findByEstado(estado));

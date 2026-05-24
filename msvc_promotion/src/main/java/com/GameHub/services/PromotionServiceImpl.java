@@ -196,8 +196,7 @@ public class PromotionServiceImpl implements PromotionService{
 
     @Transactional
     @Override
-    public PromotionDetalleDTO aplicarPromocion(PromotionAplicarDescuentoDTO aplicarDescuentoDTO, Double totalOrden) {
-        String codigo = aplicarDescuentoDTO.getCodigo();
+    public PromotionDetalleDTO aplicarPromocion(String codigo, PromotionAplicarDescuentoDTO aplicarDescuentoDTO, Double totalOrden) {
         Promotion promotion = this.promotionRepository.findByCodigo(codigo).orElseThrow(
                 () -> new PromotionException("El cupon " + codigo + " no existe"));
         if (!"Active".equalsIgnoreCase(promotion.getEstado())) {

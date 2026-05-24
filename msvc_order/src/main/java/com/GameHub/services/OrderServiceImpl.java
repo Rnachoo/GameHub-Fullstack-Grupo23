@@ -141,12 +141,13 @@ public class OrderServiceImpl implements OrderService{
     @Transactional
     @Override
     public OrderDetalleDTO save(OrderSaveDTO orderSaveDTO) {
-        log.info("Creando orden con id "+orderSaveDTO.getUserId());
+        log.info("Creando orden con id " + orderSaveDTO.getUserId());
+
         try {
             userClient.getUserById(orderSaveDTO.getUserId());
-        }catch (FeignException e){
-            log.error("Error al consultar el mcvs-user para el user con ID "+ orderSaveDTO.getUserId());
-            throw new OrderException("El user con id "+orderSaveDTO.getUserId()+" no existe");
+        } catch (FeignException e) {
+            log.error("Error al consultar el msvc-user para el user con ID " + orderSaveDTO.getUserId());
+            throw new OrderException("El user con id " + orderSaveDTO.getUserId() + " no existe");
         }
 
         Order newOrder = new Order();
@@ -154,57 +155,61 @@ public class OrderServiceImpl implements OrderService{
         newOrder.setFecha(LocalDateTime.now());
         newOrder.setEstado("PENDIENTE_PAGO");
 
-        Long subTotal = 0L;
+        Double subTotal = 0.0;
         List<OrderItem> listaItems = new ArrayList<>();
-        for(OrderSaveItemDTO saveItemDTO : orderSaveDTO.getItems()){
+
+        for (OrderSaveItemDTO saveItemDTO : orderSaveDTO.getItems()) {
             ProductDTO productDTO = productClient.getProductById(saveItemDTO.getProductId());
 
-            if(productDTO == null || productDTO.getEstado().equals("Inactive")){
-                throw new OrderException("El producto con id "+ productDTO.getId()+" no existe o esta inactivo");
+            if (productDTO == null || "Inactive".equals(productDTO.getEstado())) {
+                throw new OrderException("El producto con id " + saveItemDTO.getProductId() + " no existe o está inactivo");
             }
+
             OrderItem newItem = new OrderItem();
             newItem.setProductId(saveItemDTO.getProductId());
             newItem.setCantidad(saveItemDTO.getCantidad());
             newItem.setPrecioUnitario(productDTO.getPrecio());
-
             newItem.setOrder(newOrder);
             listaItems.add(newItem);
 
             subTotal += (productDTO.getPrecio() * saveItemDTO.getCantidad());
 
-            try{
+            try {
                 InventoryCantidadDTO cantidadDTO = new InventoryCantidadDTO();
                 cantidadDTO.setCantidad(saveItemDTO.getCantidad());
                 inventoryClient.reservarStock(saveItemDTO.getProductId(), cantidadDTO);
-            }catch (FeignException e){
+            } catch (FeignException e) {
                 log.error("Error al reservar stock en msvc-inventory para el producto " + saveItemDTO.getProductId());
                 throw new OrderException("No hay stock suficiente para el producto " + saveItemDTO.getProductId());
             }
         }
 
         newOrder.setItems(listaItems);
-        newOrder.setSubtotal(subTotal);
+        newOrder.setSubtotal(subTotal.longValue());
 
-        Long descuento = 0L;
-        if(orderSaveDTO.getCodigoPromocion() != null && !orderSaveDTO.getCodigoPromocion().isBlank()){
-            try{
+        Double descuento = 0.0;
+        if (orderSaveDTO.getCodigoPromocion() != null && !orderSaveDTO.getCodigoPromocion().isBlank()) {
+            try {
                 PromotionSaveDTO promotionSaveDTO = new PromotionSaveDTO(orderSaveDTO.getCodigoPromocion(), orderSaveDTO.getItems());
-                descuento = promotionClient.calcularDescuento(promotionSaveDTO);
-            }catch (FeignException e) {
+                PromotionDTO promotionDTO = promotionClient.aplicarPromocion(orderSaveDTO.getCodigoPromocion(), promotionSaveDTO, subTotal);
+                descuento = promotionDTO.getValor();
+            } catch (FeignException e) {
                 log.error("Error al validar el cupón en msvc-promotion: " + orderSaveDTO.getCodigoPromocion());
                 throw new OrderException("El cupón ingresado no es válido o está expirado");
             }
         }
-        newOrder.setDescuento(descuento);
-        Long totalFinal = subTotal - descuento;
-        if (totalFinal < 0L) {
-            newOrder.setTotal(0L);
-        } else {
-            newOrder.setTotal(totalFinal);
+
+        newOrder.setDescuento(descuento.longValue());
+
+        Double totalFinal = subTotal - descuento;
+        if (totalFinal < 0.0) {
+            totalFinal = 0.0;
         }
 
+        newOrder.setTotal(totalFinal.longValue());
+
         Order orderSave = orderRepository.save(newOrder);
-        log.info("Orden "+orderSave.getId()+" Guardada con exito");
+        log.info("Orden " + orderSave.getId() + " Guardada con éxito");
 
         OrderDetalleDTO dto = new OrderDetalleDTO();
         dto.setId(orderSave.getId());
@@ -215,19 +220,17 @@ public class OrderServiceImpl implements OrderService{
         dto.setDescuento(orderSave.getDescuento());
         dto.setTotal(orderSave.getTotal());
 
-        List<OrderItemDTO> itemsDto = new ArrayList<>();
-        for (OrderItem item : orderSave.getItems()) {
+        List<OrderItemDTO> itemsDto = orderSave.getItems().stream().map(item -> {
             OrderItemDTO itemDto = new OrderItemDTO();
             itemDto.setId(item.getId());
             itemDto.setProductId(item.getProductId());
             itemDto.setCantidad(item.getCantidad());
             itemDto.setPrecioUnitario(item.getPrecioUnitario());
+            return itemDto;
+        }).toList();
 
-            itemsDto.add(itemDto);
-        }
         dto.setItems(itemsDto);
         return dto;
-
     }
 
     @Transactional

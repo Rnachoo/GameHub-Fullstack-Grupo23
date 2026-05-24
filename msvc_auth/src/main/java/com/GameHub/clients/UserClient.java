@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "msvc-user", url = "localhost:8002/api/v1/users")
 public interface UserClient {
     @GetMapping("/email/{email}")
-        UserDTO getUserByEmail(@PathVariable("email") String id);
+        UserDTO getUserByEmail(@PathVariable("email") String email);
 }
