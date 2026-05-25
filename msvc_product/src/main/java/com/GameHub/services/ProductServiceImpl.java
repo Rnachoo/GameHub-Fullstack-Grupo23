@@ -1,5 +1,7 @@
 package com.GameHub.services;
 
+import com.GameHub.clients.CategoryFeignClient;
+import com.GameHub.clients.dtos.CategoryClientDTO;
 import com.GameHub.exceptions.ProductException;
 import com.GameHub.models.Product;
 import com.GameHub.models.dtos.ProductRequestDTO;
@@ -19,9 +21,17 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private CategoryFeignClient categoryFeignClient;
+
     @Transactional
     @Override
     public ProductResponseDTO createProduct(ProductRequestDTO requestDTO) { //crear producto
+        CategoryClientDTO categoria = categoryFeignClient.getCategoryById(requestDTO.getCategoriaId());
+        if (categoria == null || !categoria.getEstado().equals("Active")) {
+            throw new ProductException("Categoría no encontrada o inactiva.");
+        }
+
         Product product = new Product();
         product.setNombre(requestDTO.getNombre());
         product.setMarca(requestDTO.getMarca());
@@ -48,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<ProductResponseDTO> getAllProducts() {
+    public List<ProductResponseDTO> getAllProducts() { //listar todos los products
         List<Product> products = productRepository.findAll();
         log.info("Total de productos encontrados: {}", products.size());
         return products.stream()
@@ -59,6 +69,11 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public ProductResponseDTO updateProduct(Long id, ProductRequestDTO requestDTO) { //actualizar info producto
+        CategoryClientDTO categoria = categoryFeignClient.getCategoryById(requestDTO.getCategoriaId());
+        if (categoria == null || !categoria.getEstado().equals("Active")) {
+            throw new ProductException("Categoría no encontrada o inactiva.");
+        }
+
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductException("Producto no encontrado con ID: " + id));
         product.setNombre(requestDTO.getNombre());
