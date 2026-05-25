@@ -1,12 +1,9 @@
-        /// GameHub Engine \\\
-      
-      ::::::::       :::    :::        Integrantes: Ignacio Paredes, Facundo Benites, Benjamin Cabrera.
-    :+:    :+:      :+:    :+:    
-   +:+             +:+    +:+          GameHub Store es una solución backend distribuida para una tienda gamer online. El sistema gestiona el catálogo, inventario, órdenes, pagos,
-  :#:             +#++:++#++           despachos y promociones mediante una arquitectura basada en microservicios, evitando depender de un sistema monolítico. 
- +#+   +#+#      +#+    +#+
-#+#    #+#      #+#    #+#
-########       ###    ###
+
+
+Integrantes: Ignacio Paredes, Facundo Benites, Benjamin Cabrera.
+
+GameHub Store es una solución backend distribuida para una tienda gamer online. El sistema gestiona el catálogo, inventario, órdenes, pagos,
+despachos y promociones mediante una arquitectura basada en microservicios, evitando depender de un sistema monolítico. 
 
 * **Java 21**
 * **Spring Boot 4.0.6**
