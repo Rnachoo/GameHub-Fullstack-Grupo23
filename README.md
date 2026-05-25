@@ -1,6 +1,7 @@
+                            Integrantes: Ignacio Paredes, Facundo Benites, Benjamin Cabrera.
 
+<img width="120" height="120" alt="Logotipo GameHub" src="https://github.com/user-attachments/assets/a6b356aa-b4b6-4494-a9d5-ac19ece491d3" />    
 
-Integrantes: Ignacio Paredes, Facundo Benites, Benjamin Cabrera.
 
 GameHub Store es una solución backend distribuida para una tienda gamer online. El sistema gestiona el catálogo, inventario, órdenes, pagos,
 despachos y promociones mediante una arquitectura basada en microservicios, evitando depender de un sistema monolítico. 
@@ -13,14 +14,4 @@ despachos y promociones mediante una arquitectura basada en microservicios, evit
 
 Nuestro sistema esta compuesto por 10 microservicios funcionales los cuales estan enumarados a continuacion:
 
-|  Microservicio  | Puerto | Descripción Principal                                 |
-| `msvc-auth`     | `8000` | Gestión de cuentas de acceso y autenticación.         |
-| `msvc-order`    | `8001` | Orquestador de compras, stock y descuentos.           |
-| `msvc-user`     | `8002` | Administración de perfiles y direcciones de clientes. |
-| `msvc-category` | `8004` | Clasificación de productos del catálogo.              |
-| `msvc-inventory`| `8005` | Control de stock disponible, reservado y vendido.     |
-| `msvc-payment`  | `8007` | Procesamiento y validación de pagos de órdenes.       |
-| `msvc-promotion`| `8009` | Gestión de cupones y cálculo de descuentos.           |
-| `msvc-review`   | `8040` | Calificación y comentarios de productos.              |
-| `msvc-product`  | `8091` | Catálogo de productos gamer.                          |
-| `msvc-shipping` | `8090` | Gestión de despachos de órdenes pagadas.              |
+<img width="451" height="320" alt="image" src="https://github.com/user-attachments/assets/d21434c7-e9de-49d7-9822-56714b33a78b" />
