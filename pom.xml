@@ -28,6 +28,9 @@
 		<module>msvc_payment</module>
 		<module>msvc_inventory</module>
         <module>msvc_order</module>
+		<module>msvc_product</module>
+		<module>msvc_review</module>
+		<module>msvc_shipping</module>
     </modules>
 	<scm>
 		<connection/>
