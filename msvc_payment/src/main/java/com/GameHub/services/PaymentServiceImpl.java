@@ -87,7 +87,7 @@ public class PaymentServiceImpl implements PaymentService {
         if (paymentSaveDTO.getOrdenId() == null) {
             throw new PaymentException("El ID de la orden es obligatorio");
         }
-        OrdenDTO orden;
+        OrderDTO orden;
         try {
             orden = ordenClient.getOrdenById(paymentSaveDTO.getOrdenId());
         } catch (FeignException e) {

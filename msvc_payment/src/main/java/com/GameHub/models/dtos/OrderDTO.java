@@ -9,8 +9,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class OrdenDTO {
+public class OrderDTO {
     private Long id;
-    private double total;
+    private Long total;
     private String estado;
 }
