@@ -38,21 +38,30 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Transactional
     @Override
-    public ResenaResponseDTO createResena(ResenaRequestDTO requestDTO) { //crea la reseña, valida si el user esta activo,
-                                                                        //el producto exista, le pertenezca al user y q no hay una reseña duplicada
+    public ResenaResponseDTO createResena(ResenaRequestDTO requestDTO) {
 
-        UsuarioClientDTO usuario = userFeignClient.getUsuarioById(requestDTO.getUsuarioId());
-        if (usuario == null || !usuario.getEstado().equals("Active")) {
-            throw new ReviewException("Usuario no encontrado o inactivo.");
+        try {
+            UsuarioClientDTO usuario = userFeignClient.getUsuarioById(requestDTO.getUsuarioId());
+            if (!"Active".equals(usuario.getEstado())) {
+                throw new ReviewException("Usuario no encontrado o inactivo.");
+            }
+        } catch (feign.FeignException e) {
+            throw new ReviewException("Usuario no encontrado.");
         }
 
-        ProductoClientDTO producto = productFeignClient.getProductoById(requestDTO.getProductoId());
-        if (producto == null || !producto.isEstado()) {
-            throw new ReviewException("Producto no encontrado o inactivo.");
+        try {
+            ProductoClientDTO producto = productFeignClient.getProductoById(requestDTO.getProductoId());
+            if (!producto.isEstado()) {
+                throw new ReviewException("Producto no encontrado o inactivo.");
+            }
+        } catch (feign.FeignException e) {
+            throw new ReviewException("Producto no encontrado.");
         }
 
-        OrdenClientDTO orden = orderFeignClient.getOrdenById(requestDTO.getOrdenId());
-        if (orden == null) {
+        OrdenClientDTO orden;
+        try {
+            orden = orderFeignClient.getOrdenById(requestDTO.getOrdenId());
+        } catch (feign.FeignException e) {
             throw new ReviewException("Orden no encontrada.");
         }
 
@@ -107,11 +116,11 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Transactional
     @Override
-    public ResenaResponseDTO updateResena(Long id, ResenaUpdateDTO requestDTO) { //actualiza puntuacion y comentario de una review
+    public ResenaResponseDTO updateResena(Long id, ResenaUpdateDTO requestDTO) {
         Review resena = resenaRepository.findById(id)
                 .orElseThrow(() -> new ReviewException("Reseña no encontrada con ID: " + id));
 
-        if (resena.getEstado().equals("Inactive")) {
+        if ("Inactive".equals(resena.getEstado())) {
             throw new ReviewException("No se puede actualizar una reseña moderada.");
         }
 

@@ -33,21 +33,34 @@ public class ShippingServiceImpl implements ShippingService {
 
     @Transactional
     @Override
-    public DespachoResponseDTO createDespacho(DespachoRequestDTO requestDTO) { //crea el despacho y valida direccion, tracking e id del user
-        OrdenClientDTO orden = orderFeignClient.getOrdenById(requestDTO.getOrdenId());
-        if (orden == null || !orden.getEstado().equals("PAGADA")) {
+    public DespachoResponseDTO createDespacho(DespachoRequestDTO requestDTO) {
+        OrdenClientDTO orden;
+        try {
+            orden = orderFeignClient.getOrdenById(requestDTO.getOrdenId());
+        } catch (feign.FeignException e) {
+            throw new ShippingException("La orden ingresada no existe.");
+        }
+
+        if (!"PAGADA".equals(orden.getEstado())) {
             throw new ShippingException("Solo se puede despachar una orden pagada.");
         }
 
-        UsuarioClientDTO usuario = userFeignClient.getUsuarioById(requestDTO.getUsuarioId());
-        if (usuario == null) {
+        UsuarioClientDTO usuario;
+        try {
+            usuario = userFeignClient.getUsuarioById(requestDTO.getUsuarioId());
+        } catch (feign.FeignException e) {
             throw new ShippingException("Usuario no encontrado con ID: " + requestDTO.getUsuarioId());
         }
+
         if (usuario.getDirectionsDTO() == null || usuario.getDirectionsDTO().isEmpty()) {
             throw new ShippingException("El usuario no tiene dirección registrada.");
         }
 
-        if (requestDTO.getTracking() != null) {
+        if (!orden.getUsuarioId().equals(requestDTO.getUsuarioId())) {
+            throw new ShippingException("El usuario que solicita el envío no es el dueño de la orden.");
+        }
+
+        if (requestDTO.getTracking() != null && !requestDTO.getTracking().isBlank()) {
             despachoRepository.findByTracking(requestDTO.getTracking())
                     .ifPresent(d -> { throw new ShippingException("El tracking ya existe: " + requestDTO.getTracking()); });
         }
@@ -63,7 +76,6 @@ public class ShippingServiceImpl implements ShippingService {
 
         Despacho saved = despachoRepository.save(despacho);
         log.info("Despacho creado con ID: {}", saved.getId());
-
         return toResponseDTO(saved);
     }
 

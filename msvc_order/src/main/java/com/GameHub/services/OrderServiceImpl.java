@@ -161,7 +161,7 @@ public class OrderServiceImpl implements OrderService{
         for (OrderSaveItemDTO saveItemDTO : orderSaveDTO.getItems()) {
             ProductDTO productDTO = productClient.getProductById(saveItemDTO.getProductId());
 
-            if (productDTO == null || "Inactive".equals(productDTO.getEstado())) {
+            if (productDTO == null || "Inactivo".equals(productDTO.getEstado())) {
                 throw new OrderException("El producto con id " + saveItemDTO.getProductId() + " no existe o está inactivo");
             }
 

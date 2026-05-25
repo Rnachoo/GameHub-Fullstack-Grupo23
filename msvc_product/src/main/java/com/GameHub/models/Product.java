@@ -28,7 +28,7 @@ public class Product {
     private String modelo;
 
     @Column(nullable = false)
-    private BigDecimal precio;
+    private Long precio;
 
     @Column(name =  "categoria_id", nullable = false)
     private Long categoriaId;
@@ -37,6 +37,6 @@ public class Product {
     private String descripcion;
 
     @Column(nullable = false)
-    private boolean estado;
+    private String estado;
 
 }

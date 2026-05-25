@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
         product.setPrecio(requestDTO.getPrecio());
         product.setCategoriaId(requestDTO.getCategoriaId());
         product.setDescripcion(requestDTO.getDescripcion());
-        product.setEstado(true);
+        product.setEstado("Activo");
 
         Product saved = productRepository.save(product);
         log.info("Producto creado con ID: {}", saved.getId());
@@ -92,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
     public void deactivateProduct(Long id) { //Desactivar producto
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductException("Producto no encontrado con ID: " + id));
-        product.setEstado(false);
+        product.setEstado("Inactivo");
         productRepository.save(product);
         log.info("Producto desactivado con ID: {}", id);
     }
@@ -106,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
         dto.setPrecio(product.getPrecio());
         dto.setCategoriaId(product.getCategoriaId());
         dto.setDescripcion(product.getDescripcion());
-        dto.setEstado(product.isEstado());
+        dto.setEstado(product.getEstado());
         return dto;
     }
 }

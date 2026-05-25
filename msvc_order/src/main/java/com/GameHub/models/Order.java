@@ -36,7 +36,7 @@ public class Order {
 
     @NotBlank(message = "El estado de la orden es obligatorio")
     @Column(nullable = false)
-    private String estado; // PENDIENTE_PAGO, PAGADA, CANCELADA
+    private String estado;
 
     @NotNull(message = "El subtotal es obligatorio")
     @Column(nullable = false)

@@ -22,7 +22,7 @@ public class ProductRequestDTO {
 
     @NotNull(message = "El precio es obligatorio.")
     @Positive(message = "El precio debe ser un número mayor que cero.")
-    private BigDecimal precio;
+    private Long precio;
 
     @NotNull(message = "El ID de la categoria es obligatorio.")
     private Long categoriaId;

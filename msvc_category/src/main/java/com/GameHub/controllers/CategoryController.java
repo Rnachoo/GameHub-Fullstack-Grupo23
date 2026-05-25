@@ -27,7 +27,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<com.GameHub.models.dtos.CategoryDetalleDTO> findByID(@PathVariable Long id){
+    public ResponseEntity<com.GameHub.models.dtos.CategoryDetalleDTO> findById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.findById(id));
     }
 
