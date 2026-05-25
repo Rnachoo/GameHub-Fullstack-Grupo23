@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "msvc-inventory", url = "localhost:8005/api/v1/inventories") // Corrección aquí
+@FeignClient(name = "msvc-inventory", url = "http://localhost:8005/api/v1/inventories")
 public interface InventoryClient {
+
     @PutMapping("/producto/{productId}/reservar")
     InventoryDTO reservarStock(@PathVariable("productId") Long productId, @RequestBody InventoryCantidadDTO cantidadDTO);
 }
