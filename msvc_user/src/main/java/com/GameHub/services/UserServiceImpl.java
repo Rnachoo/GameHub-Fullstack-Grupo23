@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<UserDetalleDTO> findByEmail(String email) {//Filtra por el email del user
         log.info("Listando usuarios registrados en el sistema!");
-        return this.userRepository.findByRol(email).stream().map(user -> {
+        return this.userRepository.findByEmail(email).stream().map(user -> {
             UserDetalleDTO dto = new UserDetalleDTO();
             dto.setId(user.getId());
             dto.setNombreUser(user.getNombreUser());
@@ -151,7 +151,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     @Override
     public UserDetalleDTO save(UserSaveDTO userSaveDTO) { //Crear cuenta
-        if(this.userRepository.existeEmail(userSaveDTO.getEmail())){
+        if(this.userRepository.existsByEmail(userSaveDTO.getEmail())){
             throw new UserException("El correo electronico ya esta registrado");
         }
         User user = new User();

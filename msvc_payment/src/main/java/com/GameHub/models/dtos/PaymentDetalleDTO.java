@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class PaymentDetalleDTO {
     private Long id;
     private Long ordenId;
-    private double monto;
+    private Long monto;
     private String metodo;
     private String estado;
     private String codigoTransaccion;

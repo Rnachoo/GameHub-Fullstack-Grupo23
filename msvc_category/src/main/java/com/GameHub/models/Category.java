@@ -24,6 +24,6 @@ public class Category {
     @Column(name = "categoria_id")
     private Long id;
 
-    String descripcion;
-    String estado;
+    private String descripcion;
+    private String estado;
 }

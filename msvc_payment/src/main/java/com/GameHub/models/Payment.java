@@ -28,7 +28,7 @@ public class Payment {
     private Long ordenId;
 
     @NotNull(message = "El monto es obligatorio")
-    private double monto;
+    private Long monto;
 
     @NotBlank(message = "El método de pago es obligatorio")
     private String metodo;

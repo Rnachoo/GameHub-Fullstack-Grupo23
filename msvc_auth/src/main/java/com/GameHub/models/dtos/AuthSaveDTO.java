@@ -12,6 +12,8 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class AuthSaveDTO {
+    @NotBlank(message = "El nombre de cuenta es obligatorio")
+    private String nombreCuenta;
 
     @NotBlank(message = "El email es obligatorio")
     @Email(message = "Debe proporcionar un formato de email válido")

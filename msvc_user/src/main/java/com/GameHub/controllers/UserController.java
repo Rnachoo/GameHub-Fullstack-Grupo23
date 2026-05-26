@@ -38,7 +38,7 @@ public class UserController {
 
     @GetMapping("/email/{email}")
     public ResponseEntity<List<UserDetalleDTO>> findByEmail(@PathVariable String email){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.findByRol(email));
+        return ResponseEntity.status(HttpStatus.OK).body(userService.findByEmail(email));
     }
 
     @GetMapping("/estado/{estado}")

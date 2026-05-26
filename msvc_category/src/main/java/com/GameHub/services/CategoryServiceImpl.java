@@ -51,7 +51,7 @@ public class CategoryServiceImpl implements CategoryService{
     @Transactional
     @Override
     public CategoryDetalleDTO save(CategorySaveDTO categorySaveDTO) {
-        if(this.categoryRepository.existeNombre(categorySaveDTO.getNombreCategory())){
+        if(this.categoryRepository.existsByNombreCategory(categorySaveDTO.getNombreCategory())){
             throw new CategoryException("Ya existe una categoria registrada con ese nombre");
         }
         Category category = new Category();

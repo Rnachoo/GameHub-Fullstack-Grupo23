@@ -1,6 +1,5 @@
 package com.GameHub.controllers;
 
-import com.GameHub.models.Auth;
 import com.GameHub.models.dtos.*;
 import com.GameHub.services.AuthService;
 import jakarta.validation.Valid;

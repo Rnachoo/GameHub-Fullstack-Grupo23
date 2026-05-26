@@ -27,7 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<PaymentDetalleDTO> findAllByOrdenId(Long ordenId) {
         log.info("Abriendo lista de pagos por orden");
-        return this.paymentRepository.findByOrder(ordenId).stream().map(payment -> {
+        return this.paymentRepository.findByOrdenId(ordenId).stream().map(payment -> {
             PaymentDetalleDTO dto = new PaymentDetalleDTO();
             dto.setId(payment.getId());
             dto.setOrdenId(payment.getOrdenId());
@@ -94,10 +94,10 @@ public class PaymentServiceImpl implements PaymentService {
             log.error("Error al consultar la orden ID "+ paymentSaveDTO.getOrdenId());
             throw new PaymentException("La orden a pagar no existe o el servicio no responde");
         }
-        if (Double.compare(orden.getTotal(), paymentSaveDTO.getMonto()) != 0) {
+        if (!orden.getTotal().equals(paymentSaveDTO.getMonto())) {
             throw new PaymentException("El monto de la compra debe coincidir con el total de la orden");
         }
-        if (this.paymentRepository.existsByOrdenidAndEstado(paymentSaveDTO.getOrdenId(), "APROBADO")) {
+        if (this.paymentRepository.existsByOrdenIdAndEstado(paymentSaveDTO.getOrdenId(), "APROBADO")) {
             throw new PaymentException("Esta orden ya ha sido pagada");//No duplicar pagos
         }
         Payment payment = new Payment();

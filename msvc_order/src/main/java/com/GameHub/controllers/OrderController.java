@@ -40,7 +40,7 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaOrden);
     }
 
-    @PatchMapping("/{id}/estado")
+    @PutMapping("/{id}/estado")
     public ResponseEntity<OrderDetalleDTO> updateEstado(@PathVariable Long id, @Valid @RequestBody OrderUpdateEstadoDTO orderUpdateEstadoDTO) {
         OrderDetalleDTO ordenActualizada = orderService.updateEstado(id, orderUpdateEstadoDTO);
         return ResponseEntity.status(HttpStatus.OK).body(ordenActualizada);

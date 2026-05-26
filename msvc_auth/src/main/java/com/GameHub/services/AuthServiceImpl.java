@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,12 +32,12 @@ public class AuthServiceImpl implements AuthService {
             dto.setEstado(auth.getEstado());
             dto.setEmail(auth.getEmail());
             dto.setRol(auth.getRol());
+
             try {
                 UserDTO user = this.userClient.getUserByEmail(auth.getEmail());
                 dto.setUser(user);
             }catch (FeignException e){
                 log.error("Error de Conexión con el email "+ auth.getEmail());
-                throw new AuthException("Cuenta con email "+ auth.getEmail()+" no existe");
             }
             return dto;
         }).toList();
@@ -56,8 +58,7 @@ public class AuthServiceImpl implements AuthService {
             UserDTO user = this.userClient.getUserByEmail(auth.getEmail());
             dto.setUser(user);
         }catch (FeignException e){
-            log.error("Error de Conexion con el usuario con correo "+ auth.getEmail());
-            throw new AuthException("Cuenta con email "+ auth.getEmail()+" no existe");
+            log.warn("Error de Conexion con el usuario con correo "+ auth.getEmail());
         }
         return dto;
     }
@@ -78,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
             UserDTO user = this.userClient.getUserByEmail(auth.getEmail());
             dto.setUser(user);
         } catch (FeignException e) {
-            log.error("Error de conexión con user con email "+ auth.getEmail());
+            log.warn("Error de conexión con user con email "+ auth.getEmail());
             throw new AuthException("Cuenta con email "+ auth.getEmail()+" encontrada, pero no se puede obtener la información.");
         }
         return dto;
@@ -95,6 +96,8 @@ public class AuthServiceImpl implements AuthService {
         auth.setRol(authSaveDTO.getRol());
         auth.setPassword(authSaveDTO.getPassword());
         auth.setEstado("Active");
+        auth.setNombreCuenta(authSaveDTO.getNombreCuenta());
+        auth.setFechaCreacion(LocalDateTime.now());
 
         auth = authRepository.save(auth);
         log.info("Cuenta con email " + auth.getEmail()+" Creada con exito!");
@@ -168,7 +171,6 @@ public class AuthServiceImpl implements AuthService {
         );
     }
 
-    //Logica implementada del msvc
 
     @Transactional
     @Override

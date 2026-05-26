@@ -91,6 +91,9 @@ public class InventoryServiceImpl implements InventoryService {
         inventory.setProductId(inventorySaveDTO.getProductId());
         inventory.setStockDisponible(inventorySaveDTO.getStockDisponible());
         inventory.setStockReservado(inventorySaveDTO.getStockReservado());
+
+        inventory.setStockMinimo(inventorySaveDTO.getStockMinimo());
+
         inventory.setUbicacion(inventorySaveDTO.getUbicacion());
 
         List<MovimientoInventario> movimientoInventarios = inventorySaveDTO.getMovimientosDTO().stream().map(movDTO ->{
@@ -104,19 +107,18 @@ public class InventoryServiceImpl implements InventoryService {
         }).toList();
         inventory.setMovimientos(movimientoInventarios);
 
-
         Inventory inventorySave = this.inventoryRepository.save(inventory);
         log.info("Inventario con id "+inventorySave.getId()+" ha sido guardado con exito");
 
         InventoryDetalleDTO dto = new InventoryDetalleDTO();
-        dto.setId(inventory.getId());
-        dto.setProductId(inventory.getProductId());
-        dto.setStockDisponible(inventory.getStockDisponible());
-        dto.setStockMinimo(inventory.getStockMinimo());
-        dto.setStockReservado(inventory.getStockReservado());
-        dto.setUbicacion(inventory.getUbicacion());
+        dto.setId(inventorySave.getId());
+        dto.setProductId(inventorySave.getProductId());
+        dto.setStockDisponible(inventorySave.getStockDisponible());
+        dto.setStockMinimo(inventorySave.getStockMinimo());
+        dto.setStockReservado(inventorySave.getStockReservado());
+        dto.setUbicacion(inventorySave.getUbicacion());
 
-        List<MovimientoDetalleDTO> movimientoDTO = inventory.getMovimientos().stream().map(mov->{
+        List<MovimientoDetalleDTO> movimientoDTO = inventorySave.getMovimientos().stream().map(mov->{
             MovimientoDetalleDTO movDTO = new MovimientoDetalleDTO();
             movDTO.setProductId(mov.getProductId());
             movDTO.setTipo(mov.getTipo());
@@ -126,7 +128,6 @@ public class InventoryServiceImpl implements InventoryService {
         }).toList();
         dto.setMovimientosDTO(movimientoDTO);
         return dto;
-
     }
 
 
@@ -135,11 +136,14 @@ public class InventoryServiceImpl implements InventoryService {
     public InventoryDetalleDTO updateCantidadDisponible(Long id, InventoryUpdateCantidadDisponibleDTO cantidadDisponibleDTO) {
         return this.inventoryRepository.findById(id).map(inventory -> {
             if (cantidadDisponibleDTO.getStockDisponible() < 0) {
-                log.error("Intento de actualizar stock a un valor negativo en el inventario ID" + id);
+                log.error("Intento de actualizar stock a un valor negativo en el inventario ID " + id);
                 throw new InventoryException("El stock disponible no puede quedar en negativo.");
             }
             inventory.setStockDisponible(cantidadDisponibleDTO.getStockDisponible());
+
+            inventory = this.inventoryRepository.save(inventory);
             log.info("Cantidad del stock actualizado con exito");
+
             InventoryDetalleDTO dto = new InventoryDetalleDTO();
             dto.setId(inventory.getId());
             dto.setProductId(inventory.getProductId());
@@ -148,16 +152,8 @@ public class InventoryServiceImpl implements InventoryService {
             dto.setStockReservado(inventory.getStockReservado());
             dto.setUbicacion(inventory.getUbicacion());
 
-            List<MovimientoDetalleDTO> movimientoDTO = inventory.getMovimientos().stream().map(mov->{
-                MovimientoDetalleDTO movDTO = new MovimientoDetalleDTO();
-                movDTO.setProductId(mov.getProductId());
-                movDTO.setTipo(mov.getTipo());
-                movDTO.setCantidad(mov.getCantidad());
-                movDTO.setFecha(mov.getFecha());
-                return movDTO;
-            }).toList();
-            dto.setMovimientosDTO(movimientoDTO);
             return dto;
+
         }).orElseThrow(
                 () -> new InventoryException("Inventario no encontrado, no se puede actualizar el stock")
         );

@@ -20,6 +20,8 @@ public class InventorySaveDTO {
     @NotNull(message = "El stock disponible es obligatorio")
     private Long stockDisponible;
 
+    @NotNull(message = "El stock mínimo es obligatorio")
+    private Long stockMinimo;
     @NotNull(message = "El stock reservado es obligatorio")
     private Long stockReservado;
 
