@@ -1,4 +1,4 @@
-                            Integrantes: Ignacio Paredes, Facundo Benites, Benjamin Cabrera.
+                            Integrantes: Ignacio Paredes, Facundo Benitez, Benjamin Cabrera.
 
 <img width="120" height="120" alt="Logotipo GameHub" src="https://github.com/user-attachments/assets/a6b356aa-b4b6-4494-a9d5-ac19ece491d3" />    
 
