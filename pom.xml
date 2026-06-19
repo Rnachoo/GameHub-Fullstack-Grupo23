@@ -27,6 +27,8 @@
 		<module>msvc_product</module>
 		<module>msvc_review</module>
 		<module>msvc_shipping</module>
+		<module>msvc-eureka</module>
+		<module>msvc-gateway</module>
 	</modules>
 
 	<properties>
@@ -35,6 +37,10 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc</artifactId>
