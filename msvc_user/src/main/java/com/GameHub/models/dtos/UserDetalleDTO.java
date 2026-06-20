@@ -17,7 +17,6 @@ public class UserDetalleDTO {
     private String nombreUser;
     private String email;
     private String telefono;
-    private String rol;
     private String estado;
     private List<DirectionDetalleDTO> directionsDTO; //Anidamiento de las direcciones
 }

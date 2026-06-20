@@ -26,8 +26,6 @@ public class UserSaveDTO {
     @Email(message = "El campo de correo tiene que tener el formato de correo")
     private String email;
 
-    private String rol;
-
     private List<DirectionDetalleDTO> directionsDTO; //Anidamiento de las direcciones
 
 }

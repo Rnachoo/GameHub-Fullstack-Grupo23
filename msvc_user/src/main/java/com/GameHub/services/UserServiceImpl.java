@@ -29,7 +29,6 @@ public class UserServiceImpl implements UserService{
             dto.setNombreUser(user.getNombreUser());
             dto.setEmail(user.getEmail());
             dto.setTelefono(user.getTelefono());
-            dto.setRol(user.getRol());
             dto.setEstado(user.getEstado());
 
             List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
@@ -55,7 +54,6 @@ public class UserServiceImpl implements UserService{
             dto.setNombreUser(user.getNombreUser());
             dto.setEmail(user.getEmail());
             dto.setTelefono(user.getTelefono());
-            dto.setRol(user.getRol());
             dto.setEstado(user.getEstado());
 
             List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
@@ -80,7 +78,6 @@ public class UserServiceImpl implements UserService{
             dto.setNombreUser(user.getNombreUser());
             dto.setEmail(user.getEmail());
             dto.setTelefono(user.getTelefono());
-            dto.setRol(user.getRol());
             dto.setEstado(user.getEstado());
 
             List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
@@ -106,7 +103,6 @@ public class UserServiceImpl implements UserService{
             dto.setNombreUser(user.getNombreUser());
             dto.setEmail(user.getEmail());
             dto.setTelefono(user.getTelefono());
-            dto.setRol(user.getRol());
             dto.setEstado(user.getEstado());
 
             List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
@@ -133,7 +129,6 @@ public class UserServiceImpl implements UserService{
         dto.setNombreUser(user.getNombreUser());
         dto.setEmail(user.getEmail());
         dto.setTelefono(user.getTelefono());
-        dto.setRol(user.getRol());
         dto.setEstado(user.getEstado());
 
         List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
@@ -158,7 +153,6 @@ public class UserServiceImpl implements UserService{
         user.setNombreUser(userSaveDTO.getNombreUser());
         user.setEmail(userSaveDTO.getEmail());
         user.setTelefono(userSaveDTO.getTelefono());
-        user.setRol(userSaveDTO.getRol());
         user.setEstado("Active");
 
         if(userSaveDTO.getDirectionsDTO() != null){
@@ -182,7 +176,6 @@ public class UserServiceImpl implements UserService{
         dto.setNombreUser(userSave.getNombreUser());
         dto.setEmail(userSave.getEmail());
         dto.setTelefono(userSave.getTelefono());
-        dto.setRol(userSave.getRol());
         dto.setEstado(userSave.getEstado());
 
         List<DirectionDetalleDTO> directionDTOs = userSave.getDirections().stream().map(dir -> {
@@ -209,7 +202,6 @@ public class UserServiceImpl implements UserService{
         UserDetalleDTO dto = new UserDetalleDTO();
         dto.setId(user.getId());
         dto.setEmail(user.getEmail());
-        dto.setRol(user.getRol());
         dto.setEstado(user.getEstado());
         dto.setTelefono(user.getTelefono());
 
@@ -237,7 +229,6 @@ public class UserServiceImpl implements UserService{
             UserDetalleDTO dto = new UserDetalleDTO();
             dto.setId(user.getId());
             dto.setEmail(user.getEmail());
-            dto.setRol(user.getRol());
             dto.setEstado(user.getEstado());
             dto.setTelefono(user.getTelefono());
 
@@ -275,7 +266,6 @@ public class UserServiceImpl implements UserService{
             UserDetalleDTO dto = new UserDetalleDTO();
             dto.setId(user.getId());
             dto.setEmail(user.getEmail());
-            dto.setRol(user.getRol());
             dto.setEstado(user.getEstado());
             dto.setTelefono(user.getTelefono());
 

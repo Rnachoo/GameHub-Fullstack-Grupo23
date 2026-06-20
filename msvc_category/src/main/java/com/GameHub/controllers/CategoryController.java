@@ -67,7 +67,7 @@ public class CategoryController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Categoria encontrada",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDetalleDTO.class))
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryDetalleDTO.class))
             ),
             @ApiResponse(
                     responseCode = "404",
