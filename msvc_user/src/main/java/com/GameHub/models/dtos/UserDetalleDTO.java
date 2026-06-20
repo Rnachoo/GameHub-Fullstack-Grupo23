@@ -1,6 +1,5 @@
 package com.GameHub.models.dtos;
 
-import com.GameHub.models.Direction;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
