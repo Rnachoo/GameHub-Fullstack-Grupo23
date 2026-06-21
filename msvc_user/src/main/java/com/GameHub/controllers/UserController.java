@@ -30,7 +30,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/api/v1/users")
 @Validated
-@Tag(name = "Usuarios V1", description = "Metodos Crud para la gestión del gestor de usuarios y credenciales")
+@Tag(name = "Usuarios V1", description = "Metodos Crud para la gestión de usuarios y credenciales")
 public class UserController {
     @Autowired
     private UserService userService;

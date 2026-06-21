@@ -276,12 +276,25 @@ public class OrderServiceImpl implements OrderService{
     public void cancelarOrden(Long id) {
         log.info("Iniciando proceso de cancelación para la orden "+ id);
         Order orden = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Orden no encontrada"));
+                .orElseThrow(() -> new OrderException("Orden con ID " + id + " no encontrada"));
 
         if ("CANCELADA".equals(orden.getEstado())) {
             throw new OrderException("La orden ya se encuentra cancelada.");
         }
+
         orden.setEstado("CANCELADA");
+
+        for(OrderItem item : orden.getItems()) {
+            try {
+                InventoryCantidadDTO cantidadDTO = new InventoryCantidadDTO();
+                cantidadDTO.setCantidad(item.getCantidad());
+                inventoryClient.liberarStock(item.getProductId(), cantidadDTO);
+                log.info("Stock liberado para el producto " + item.getProductId());
+            } catch (FeignException e) {
+                log.error("Error al liberar stock para el producto " + item.getProductId() + " en la orden " + id);
+            }
+        }
+
         orderRepository.save(orden);
         log.info("Orden "+id+" cancelada exitosamente");
     }

@@ -12,4 +12,7 @@ public interface InventoryClient {
 
     @PutMapping("/producto/{productId}/reservar")
     InventoryDTO reservarStock(@PathVariable("productId") Long productId, @RequestBody InventoryCantidadDTO cantidadDTO);
+
+    @PutMapping("/producto/{productId}/liberar")
+    InventoryDTO liberarStock(@PathVariable("productId") Long productId, @RequestBody InventoryCantidadDTO cantidadDTO);
 }
