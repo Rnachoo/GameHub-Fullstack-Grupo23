@@ -76,7 +76,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // login y registro son publicos (aun no hay token)
                         // Asegúrate de que esta ruta coincida con el RequestMapping de tu AuthController
-                        .requestMatchers("/auth/login", "/auth/save").permitAll()
+                        .requestMatchers("/auths/login", "/auths/save").permitAll()
                         // documentacion y consola h2 abiertas para la demo
                         .requestMatchers("/docs/**", "/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**").permitAll()
                         // el resto exige token valido

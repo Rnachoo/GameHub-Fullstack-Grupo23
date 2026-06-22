@@ -1,4 +1,4 @@
-package com.GameHub.security;
+package com.GameHub;
 
 
 import org.springframework.boot.SpringApplication;

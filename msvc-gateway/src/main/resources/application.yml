@@ -1,0 +1,161 @@
+spring:
+  application:
+    name: msvc-gateway
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            # ==========================================
+            # 1. RUTAS DE LAS APIS (Tus 10 microservicios)
+            # ==========================================
+            - id: msvc-auth
+              uri: lb://msvc-auth
+              predicates:
+                - Path=/api/v1/auths/**
+            - id: msvc-user
+              uri: lb://msvc-user
+              predicates:
+                - Path=/api/v1/users/**
+            - id: msvc-category
+              uri: lb://msvc-category
+              predicates:
+                - Path=/api/v1/categories/**
+            - id: msvc-inventory
+              uri: lb://msvc-inventory
+              predicates:
+                - Path=/api/v1/inventories/**
+            - id: msvc-order
+              uri: lb://msvc-order
+              predicates:
+                - Path=/api/v1/ordenes/**
+            - id: msvc-payment
+              uri: lb://msvc-payment
+              predicates:
+                - Path=/api/v1/payments/**
+            - id: msvc-product
+              uri: lb://msvc-product
+              predicates:
+                - Path=/api/v1/productos/**
+            - id: msvc-promotion
+              uri: lb://msvc-promotion
+              predicates:
+                - Path=/api/v1/promociones/**
+            - id: msvc-review
+              uri: lb://msvc-review
+              predicates:
+                - Path=/api/v1/resenas/**
+            - id: msvc-shipping
+              uri: lb://msvc-shipping
+              predicates:
+                - Path=/api/v1/despachos/**
+
+            # ==========================================
+            # 2. RUTAS PARA LA DOCUMENTACIÓN SWAGGER
+            # ==========================================
+            - id: auth-api-docs
+              uri: lb://msvc-auth
+              predicates:
+                - Path=/api-docs/auths
+              filters:
+                - RewritePath=/api-docs/auths, /v3/api-docs
+            - id: user-api-docs
+              uri: lb://msvc-user
+              predicates:
+                - Path=/api-docs/users
+              filters:
+                - RewritePath=/api-docs/users, /v3/api-docs
+            - id: category-api-docs
+              uri: lb://msvc-category
+              predicates:
+                - Path=/api-docs/categories
+              filters:
+                - RewritePath=/api-docs/categories, /v3/api-docs
+            - id: inventory-api-docs
+              uri: lb://msvc-inventory
+              predicates:
+                - Path=/api-docs/inventories
+              filters:
+                - RewritePath=/api-docs/inventories, /v3/api-docs
+            - id: order-api-docs
+              uri: lb://msvc-order
+              predicates:
+                - Path=/api-docs/ordenes
+              filters:
+                - RewritePath=/api-docs/ordenes, /v3/api-docs
+            - id: payment-api-docs
+              uri: lb://msvc-payment
+              predicates:
+                - Path=/api-docs/payments
+              filters:
+                - RewritePath=/api-docs/payments, /v3/api-docs
+            - id: product-api-docs
+              uri: lb://msvc-product
+              predicates:
+                - Path=/api-docs/productos
+              filters:
+                - RewritePath=/api-docs/productos, /v3/api-docs
+            - id: promotion-api-docs
+              uri: lb://msvc-promotion
+              predicates:
+                - Path=/api-docs/promociones
+              filters:
+                - RewritePath=/api-docs/promociones, /v3/api-docs
+            - id: review-api-docs
+              uri: lb://msvc-review
+              predicates:
+                - Path=/api-docs/resenas
+              filters:
+                - RewritePath=/api-docs/resenas, /v3/api-docs
+            - id: shipping-api-docs
+              uri: lb://msvc-shipping
+              predicates:
+                - Path=/api-docs/despachos
+              filters:
+                - RewritePath=/api-docs/despachos, /v3/api-docs
+
+# ==========================================
+# CONFIGURACIÓN GENERAL DEL SERVIDOR
+# ==========================================
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+# ==========================================
+# AGREGADOR DE SWAGGER UI
+# ==========================================
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /docs/swagger-ui.html
+    urls:
+      - name: Autenticación
+        url: /api-docs/auths
+      - name: Usuarios
+        url: /api-docs/users
+      - name: Categorías
+        url: /api-docs/categories
+      - name: Inventario
+        url: /api-docs/inventories
+      - name: Órdenes
+        url: /api-docs/ordenes
+      - name: Pagos
+        url: /api-docs/payments
+      - name: Productos
+        url: /api-docs/productos
+      - name: Promociones
+        url: /api-docs/promociones
+      - name: Reseñas
+        url: /api-docs/resenas
+      - name: Despachos
+        url: /api-docs/despachos
+
+# ==========================================
+# CLAVE SECRETA JWT
+# ==========================================
+jwt:
+  secret: clave-secreta-super-segura-para-jwt-gamehub-2026-ignacio
