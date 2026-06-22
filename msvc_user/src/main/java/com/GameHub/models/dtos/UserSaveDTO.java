@@ -1,6 +1,5 @@
 package com.GameHub.models.dtos;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -25,8 +24,6 @@ public class UserSaveDTO {
     @NotBlank(message = "El campo de correo no puede ser vacio")
     @Email(message = "El campo de correo tiene que tener el formato de correo")
     private String email;
-
-    private String rol;
 
     private List<DirectionDetalleDTO> directionsDTO; //Anidamiento de las direcciones
 

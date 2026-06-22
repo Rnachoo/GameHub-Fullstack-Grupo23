@@ -29,7 +29,6 @@ public class UserServiceImpl implements UserService{
             dto.setNombreUser(user.getNombreUser());
             dto.setEmail(user.getEmail());
             dto.setTelefono(user.getTelefono());
-            dto.setRol(user.getRol());
             dto.setEstado(user.getEstado());
 
             List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
@@ -45,55 +44,33 @@ public class UserServiceImpl implements UserService{
         }).toList();
     };
 
+
     @Transactional(readOnly = true)
     @Override
-    public List<UserDetalleDTO> findByRol(String rol) {//Filtra por el rol del user
-        log.info("Listando usuarios registrados en el sistema!");
-        return this.userRepository.findByRol(rol).stream().map(user -> {
-            UserDetalleDTO dto = new UserDetalleDTO();
-            dto.setId(user.getId());
-            dto.setNombreUser(user.getNombreUser());
-            dto.setEmail(user.getEmail());
-            dto.setTelefono(user.getTelefono());
-            dto.setRol(user.getRol());
-            dto.setEstado(user.getEstado());
+    public UserDetalleDTO findByEmail(String email) {
+        log.info("Buscando usuario por email: " + email);
 
-            List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
-                DirectionDetalleDTO dirDTO = new DirectionDetalleDTO();
-                dirDTO.setComuna(dir.getComuna());
-                dirDTO.setCiudad(dir.getCiudad());
-                dirDTO.setCalle(dir.getCalle());
-                dirDTO.setNumero(dir.getNumero());
-                return dirDTO;
-            }).toList();
-            dto.setDirectionsDTO(directionDTO);
-            return dto;
-        }).toList();
-    }
-    @Transactional(readOnly = true)
-    @Override
-    public List<UserDetalleDTO> findByEmail(String email) {//Filtra por el email del user
-        log.info("Listando usuarios registrados en el sistema!");
-        return this.userRepository.findByEmail(email).stream().map(user -> {
-            UserDetalleDTO dto = new UserDetalleDTO();
-            dto.setId(user.getId());
-            dto.setNombreUser(user.getNombreUser());
-            dto.setEmail(user.getEmail());
-            dto.setTelefono(user.getTelefono());
-            dto.setRol(user.getRol());
-            dto.setEstado(user.getEstado());
+        User user = this.userRepository.findByEmail(email).orElseThrow(
+                () -> new UserException("Usuario con email " + email + " no encontrado"));
 
-            List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
-                DirectionDetalleDTO dirDTO = new DirectionDetalleDTO();
-                dirDTO.setComuna(dir.getComuna());
-                dirDTO.setCiudad(dir.getCiudad());
-                dirDTO.setCalle(dir.getCalle());
-                dirDTO.setNumero(dir.getNumero());
-                return dirDTO;
-            }).toList();
-            dto.setDirectionsDTO(directionDTO);
-            return dto;
+        UserDetalleDTO dto = new UserDetalleDTO();
+        dto.setId(user.getId());
+        dto.setNombreUser(user.getNombreUser());
+        dto.setEmail(user.getEmail());
+        dto.setTelefono(user.getTelefono());
+        dto.setEstado(user.getEstado());
+        List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
+            DirectionDetalleDTO dirDTO = new DirectionDetalleDTO();
+            dirDTO.setComuna(dir.getComuna());
+            dirDTO.setCiudad(dir.getCiudad());
+            dirDTO.setCalle(dir.getCalle());
+            dirDTO.setNumero(dir.getNumero());
+            return dirDTO;
         }).toList();
+
+        dto.setDirectionsDTO(directionDTO);
+
+        return dto;
     }
 
     @Transactional(readOnly = true)
@@ -106,7 +83,6 @@ public class UserServiceImpl implements UserService{
             dto.setNombreUser(user.getNombreUser());
             dto.setEmail(user.getEmail());
             dto.setTelefono(user.getTelefono());
-            dto.setRol(user.getRol());
             dto.setEstado(user.getEstado());
 
             List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
@@ -133,7 +109,6 @@ public class UserServiceImpl implements UserService{
         dto.setNombreUser(user.getNombreUser());
         dto.setEmail(user.getEmail());
         dto.setTelefono(user.getTelefono());
-        dto.setRol(user.getRol());
         dto.setEstado(user.getEstado());
 
         List<DirectionDetalleDTO> directionDTO = user.getDirections().stream().map(dir ->{
@@ -158,7 +133,6 @@ public class UserServiceImpl implements UserService{
         user.setNombreUser(userSaveDTO.getNombreUser());
         user.setEmail(userSaveDTO.getEmail());
         user.setTelefono(userSaveDTO.getTelefono());
-        user.setRol(userSaveDTO.getRol());
         user.setEstado("Active");
 
         if(userSaveDTO.getDirectionsDTO() != null){
@@ -182,7 +156,6 @@ public class UserServiceImpl implements UserService{
         dto.setNombreUser(userSave.getNombreUser());
         dto.setEmail(userSave.getEmail());
         dto.setTelefono(userSave.getTelefono());
-        dto.setRol(userSave.getRol());
         dto.setEstado(userSave.getEstado());
 
         List<DirectionDetalleDTO> directionDTOs = userSave.getDirections().stream().map(dir -> {
@@ -209,7 +182,6 @@ public class UserServiceImpl implements UserService{
         UserDetalleDTO dto = new UserDetalleDTO();
         dto.setId(user.getId());
         dto.setEmail(user.getEmail());
-        dto.setRol(user.getRol());
         dto.setEstado(user.getEstado());
         dto.setTelefono(user.getTelefono());
 
@@ -237,7 +209,6 @@ public class UserServiceImpl implements UserService{
             UserDetalleDTO dto = new UserDetalleDTO();
             dto.setId(user.getId());
             dto.setEmail(user.getEmail());
-            dto.setRol(user.getRol());
             dto.setEstado(user.getEstado());
             dto.setTelefono(user.getTelefono());
 
@@ -275,7 +246,6 @@ public class UserServiceImpl implements UserService{
             UserDetalleDTO dto = new UserDetalleDTO();
             dto.setId(user.getId());
             dto.setEmail(user.getEmail());
-            dto.setRol(user.getRol());
             dto.setEstado(user.getEstado());
             dto.setTelefono(user.getTelefono());
 

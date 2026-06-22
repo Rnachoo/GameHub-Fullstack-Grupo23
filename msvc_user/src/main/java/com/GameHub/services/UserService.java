@@ -12,8 +12,7 @@ import java.util.List;
 public interface UserService {
 
     List<UserDetalleDTO> findAll();
-    List<UserDetalleDTO> findByRol(String rol);
-    List<UserDetalleDTO> findByEmail(String email);
+    UserDetalleDTO findByEmail(String email);
     List<UserDetalleDTO> findByEstado(String estado);
     UserDetalleDTO findById (Long id);
     UserDetalleDTO save (UserSaveDTO userSaveDTO);

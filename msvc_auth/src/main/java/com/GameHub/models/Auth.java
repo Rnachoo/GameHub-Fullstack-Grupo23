@@ -9,6 +9,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="cuentas")
@@ -35,12 +37,16 @@ public class Auth {
     @NotBlank(message = "La constraseña es obligatorio y no puede estar vacia")
     private String password;
 
-
-    private String rol;
-
     @NotBlank(message = "El estado es obligatorio y no puede estar vacia")
     private String estado;
     @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "auth_roles",
+            joinColumns = @JoinColumn(name = "cuenta_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
+    private Set<Rol> roles = new HashSet<>();;
 }

@@ -15,4 +15,5 @@ public class AuthDetalleDTO {
     private String estado;
     private String rol;
     private UserDTO user;//Anidamiento de la info del MSVC User
+    private String token;
 }
