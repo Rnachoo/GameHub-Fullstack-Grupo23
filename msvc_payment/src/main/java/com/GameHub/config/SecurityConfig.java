@@ -57,9 +57,9 @@ public class SecurityConfig {
                         // OPERACIONES EXCLUSIVAS DE ADMINISTRACIÓN (Solo ADMIN)
                         // Buscar todos los pagos del sistema por estado (auditoría financiera)
                         .requestMatchers(HttpMethod.GET, "/api/v1/payments/estado/**").hasRole("ADMIN")
-                        // Modificar estados manualmente o anular pagos
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/payments/**/estado").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/payments/**/anular").hasRole("ADMIN")
+                        // Modificar estados manualmente o anular pagos (CORREGIDO AQUÍ 👇)
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/payments/{id}/estado").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/payments/{id}/anular").hasRole("ADMIN")
 
                         .anyRequest().authenticated())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

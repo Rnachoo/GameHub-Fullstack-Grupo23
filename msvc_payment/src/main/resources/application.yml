@@ -1,9 +1,13 @@
 server:
-  port: 8007
+  port: 8003
 
 spring:
   application:
     name: msvc-payment
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
   datasource:
     url: jdbc:h2:file:./data/payment_db
@@ -22,9 +26,8 @@ spring:
       enabled: true
       path: /h2-console
 
-
   jwt:
-    secret: EstaEsUnaClaveSecretaSuperSeguraYLargaDeAlMenos32Caracteres
+    secret: clave-secreta-super-segura-para-jwt-gamehub-2026-ignacio
 
 springdoc:
   api-docs:

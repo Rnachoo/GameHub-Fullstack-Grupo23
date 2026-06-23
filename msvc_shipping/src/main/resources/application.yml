@@ -22,9 +22,9 @@ spring:
       enabled: true
       path: /h2-console
 
-
+  # Sincronizado con el Gateway y el resto de servicios
   jwt:
-    secret: EstaEsUnaClaveSecretaSuperSeguraYLargaDeAlMenos32Caracteres
+    secret: clave-secreta-super-segura-para-jwt-gamehub-2026-ignacio
 
 springdoc:
   api-docs:

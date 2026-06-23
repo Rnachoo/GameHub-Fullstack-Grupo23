@@ -6,7 +6,7 @@ spring:
     name: msvc-review
 
   datasource:
-    url: jdbc:h2:file:./data/payment_db
+    url: jdbc:h2:file:./data/review_db
     driver-class-name: org.h2.Driver
     username: sa
     password: sa
@@ -21,3 +21,20 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+  jwt:
+    secret: clave-secreta-super-segura-para-jwt-gamehub-2026-ignacio
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /docs/swagger-ui.html
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true

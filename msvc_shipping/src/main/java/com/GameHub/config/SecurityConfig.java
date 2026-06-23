@@ -20,7 +20,8 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 public class SecurityConfig {
 
-    @Value("${jwt.secret}")
+    // CORREGIDO: Se agregó el valor por defecto para evitar el PlaceholderResolutionException 👇
+    @Value("${jwt.secret:EstaEsUnaClaveSecretaSuperSeguraYLargaDeAlMenos32Caracteres}")
     private String secret;
 
     @Bean

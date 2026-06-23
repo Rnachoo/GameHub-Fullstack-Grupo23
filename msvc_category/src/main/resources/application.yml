@@ -23,8 +23,7 @@ spring:
       path: /h2-console
 
   jwt:
-    secret: EstaEsUnaClaveSecretaSuperSeguraYLargaDeAlMenos32Caracteres
-
+    secret: clave-secreta-super-segura-para-jwt-gamehub-2026-ignacio
 
 springdoc:
   api-docs:
